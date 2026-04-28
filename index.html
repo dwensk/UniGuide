@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UniGuide KZ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans:wght@700;800;900&display=swap" rel="stylesheet">
+
+<style>
+/* ═══════════════════════════════════════
+   ПЕРЕМЕННЫЕ И СБРОС
+═══════════════════════════════════════ */
+:root {
+  --grad: linear-gradient(135deg, #3b82f6 0%, #10b981 100%);
+  --grad-btn: linear-gradient(90deg, #3b82f6 0%, #10b981 100%);
+  --blue: #3b82f6;
+  --green: #10b981;
+  --purple: #8b5cf6;
+  --bg: linear-gradient(150deg, #eef6ff 0%, #f0fdf6 50%, #f5f0ff 100%);
+  --white: #ffffff;
+  --gray-50: #f8fafc;
+  --gray-100: #f1f5f9;
+  --gray-200: #e2e8f0;
+  --gray-400: #94a3b8;
+  --gray-500: #64748b;
+  --gray-700: #374151;
+  --gray-900: #111827;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow: 0 4px 16px rgba(0,0,0,0.08);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+  --radius: 16px;
+  --radius-sm: 10px;
+  --radius-full: 9999px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  background-attachment: fixed;
+  color: var(--gray-900);
+  min-height: 100vh;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ═══════════════════════════════════════
+   УТИЛИТЫ
+═══════════════════════════════════════ */
+.grad-text {
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(0,0,0,0.04);
+}
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 12px 24px; border-radius: var(--radius-sm);
+  font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.9rem;
+  border: none; cursor: pointer; transition: all 0.2s; text-decoration: none;
+}
+.btn-primary {
+  background: var(--grad-btn); color: white;
+  box-shadow: 0 4px 16px rgba(59,130,246,0.3);
+}
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(59,130,246,0.4); }
+.btn-secondary {
+  background: var(--white); color: var(--gray-700);
+  border: 1.5px solid var(--gray-200) !important;
+  box-shadow: var(--shadow-sm);
+}
+.btn-secondary:hover { border-color: var(--blue) !important; color: var(--blue); }
+.badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 12px; border-radius: var(--radius-full);
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.03em;
+}
+.screen { display: none; }
+.screen.active { display: block; }
+.section { max-width: 1100px; margin: 0 auto; padding: 48px 24px 64px; }
+input, select { font-family: 'Inter', sans-serif; }
+select { appearance: none; cursor: pointer; }
+input:focus, select:focus { outline: none; border-color: var(--blue) !important; box-shadow: 0 0 0 3px rgba(59,130,246,0.12); }
+
+/* ═══════════════════════════════════════
+   ПЕРЕКЛЮЧАТЕЛЬ ЯЗЫКОВ
+═══════════════════════════════════════ */
+.lang-switch {
+  display: flex; gap: 4px;
+  background: var(--gray-100);
+  border-radius: var(--radius-full);
+  padding: 3px;
+}
+.lang-btn {
+  padding: 5px 14px; border-radius: var(--radius-full);
+  font-size: 0.75rem; font-weight: 600; cursor: pointer;
+  border: none; font-family: 'Inter', sans-serif;
+  transition: all 0.2s; background: transparent; color: var(--gray-500);
+}
+.lang-btn.active {
+  background: white; color: var(--blue);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+/* ═══════════════════════════════════════
+   НАВИГАЦИЯ
+═══════════════════════════════════════ */
+.nav {
+  position: sticky; top: 0; z-index: 200;
+  background: rgba(255,255,255,0.88);
+  backdrop-filter: blur(20px) saturate(1.5);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  padding: 10px 24px;
+  display: flex; align-items: center; gap: 12px;
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 10px; flex: 1;
+  text-decoration: none;
+}
+.nav-logo-icon {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: var(--grad); display: flex; align-items: center;
+  justify-content: center; font-size: 18px; flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(59,130,246,0.3);
+}
+.nav-logo-text {
+  font-family: 'Noto Sans', sans-serif;
+  font-size: 0.95rem; font-weight: 800; color: var(--gray-900);
+}
+.nav-tabs { display: flex; gap: 2px; }
+.nav-tab {
+  padding: 7px 16px; border-radius: var(--radius-sm);
+  font-size: 0.82rem; font-weight: 500; cursor: pointer;
+  border: none; font-family: 'Inter', sans-serif;
+  transition: all 0.2s; background: transparent; color: var(--gray-500);
+}
+.nav-tab:hover { color: var(--gray-900); background: var(--gray-100); }
+.nav-tab.active {
+  background: white; color: var(--blue); font-weight: 600;
+  box-shadow: var(--shadow-sm);
+}
+
+/* ═══════════════════════════════════════
+   SPLASH SCREEN
+═══════════════════════════════════════ */
+.splash {
+  min-height: 100vh; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; padding: 24px;
+  background: var(--bg); background-attachment: fixed;
+}
+.splash-logo-wrap { text-align: center; margin-bottom: 32px; }
+.splash-icon {
+  width: 90px; height: 90px; border-radius: 24px;
+  background: var(--grad); display: flex; align-items: center;
+  justify-content: center; font-size: 42px; margin: 0 auto 18px;
+  box-shadow: 0 12px 40px rgba(59,130,246,0.35);
+}
+.splash-title {
+  font-family: 'Noto Sans', sans-serif;
+  font-size: 2rem; font-weight: 900; color: var(--gray-900); margin-bottom: 8px;
+}
+.splash-sub { color: var(--gray-500); font-size: 0.95rem; }
+.splash-card {
+  background: white; border-radius: 24px; padding: 36px;
+  max-width: 460px; width: 100%;
+  box-shadow: 0 8px 48px rgba(0,0,0,0.1);
+  border: 1px solid rgba(0,0,0,0.04);
+}
+.splash-card-title {
+  font-family: 'Noto Sans', sans-serif;
+  font-size: 1.25rem; font-weight: 800; color: var(--gray-900);
+  text-align: center; line-height: 1.3; margin-bottom: 8px;
+}
+.splash-card-sub {
+  color: var(--gray-500); font-size: 0.88rem;
+  text-align: center; margin-bottom: 28px; line-height: 1.6;
+}
+.splash-feature {
+  display: flex; align-items: center; gap: 14px; margin-bottom: 16px;
+}
+.splash-feature-icon {
+  width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 18px;
+}
+.splash-feature-text { color: var(--gray-700); font-size: 0.88rem; line-height: 1.4; }
+.splash-btn {
+  width: 100%; padding: 17px; border-radius: 14px;
+  background: var(--grad-btn); color: white;
+  font-family: 'Noto Sans', sans-serif; font-weight: 700; font-size: 1rem;
+  border: none; cursor: pointer; margin-top: 28px;
+  box-shadow: 0 6px 24px rgba(59,130,246,0.4);
+  transition: all 0.2s; letter-spacing: 0.02em;
+}
+.splash-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(59,130,246,0.5); }
+.splash-footer { color: var(--gray-400); font-size: 0.75rem; margin-top: 24px; }
+
+/* ═══════════════════════════════════════
+   HOME SCREEN
+═══════════════════════════════════════ */
+.hero {
+  text-align: center; padding: 56px 24px 48px;
+  max-width: 700px; margin: 0 auto;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: #eff6ff; border: 1px solid #bfdbfe;
+  color: var(--blue); padding: 6px 18px;
+  border-radius: var(--radius-full); font-size: 0.75rem;
+  font-weight: 600; margin-bottom: 22px; letter-spacing: 0.04em;
+}
+.hero-title {
+  font-family: 'Noto Sans', sans-serif;
+  font-size: clamp(1.8rem, 5vw, 3.2rem);
+  font-weight: 900; line-height: 1.1;
+  color: var(--gray-900); margin-bottom: 18px;
+}
+.hero-sub {
+  color: var(--gray-500); font-size: 1.05rem;
+  line-height: 1.7; margin-bottom: 32px;
+}
+.hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.stats-row {
+  display: grid; grid-template-columns: repeat(4,1fr);
+  gap: 14px; margin: 40px auto; max-width: 800px; padding: 0 24px;
+}
+.stat-card {
+  background: white; border-radius: var(--radius); padding: 20px;
+  text-align: center; box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(0,0,0,0.04);
+}
+.stat-icon { font-size: 1.6rem; margin-bottom: 8px; }
+.stat-num {
+  font-family: 'Noto Sans', sans-serif;
+  font-size: 1.6rem; font-weight: 900;
+  background: var(--grad); -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; background-clip: text;
+  margin-bottom: 4px;
+}
+.stat-label { color: var(--gray-400); font-size: 0.75rem; font-weight: 500; }
+.features-grid {
+  display: grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+  gap: 16px; max-width: 1100px; margin: 0 auto; padding: 0 24px 64px;
+}
+.feature-card {
+  background: white; border-radius: var(--radius); padding: 24px;
+  box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,0.04);
+  transition: all 0.25s;
+}
+.feature-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+.feature-icon { font-size: 1.8rem; margin-bottom: 14px; }
+.feature-title {
+  font-family: 'Noto Sans', sans-serif; font-size: 0.9rem;
+  font-weight: 800; color: var(--gray-900); margin-bottom: 8px;
+}
+.feature-desc { color: var(--gray-500); font-size: 0.84rem; line-height: 1.6; margin-bottom: 16px; }
+
+
+
+/* ═══════════════════════════════════════
+   CATALOG
+═══════════════════════════════════════ */
+.filter-bar {
+  background: white; border-radius: var(--radius); padding: 16px 20px;
+  box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,0.04);
+  display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 20px;
+}
+.filter-select, .filter-input {
+  padding: 9px 14px; border-radius: var(--radius-sm);
+  background: var(--gray-50); border: 1.5px solid var(--gray-200);
+  color: var(--gray-700); font-size: 0.83rem; font-family: 'Inter', sans-serif;
+}
+.filter-select:focus, .filter-input:focus { border-color: var(--blue); }
+.filter-input { min-width: 180px; }
+.count-pill {
+  margin-left: auto; background: var(--gray-50); border: 1px solid var(--gray-200);
+  border-radius: var(--radius-full); padding: 5px 14px;
+  font-size: 0.78rem; font-weight: 600; color: var(--gray-500);
+}
+.unis-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(320px,1fr)); gap: 16px; }
+.uni-card {
+  background: white; border-radius: var(--radius); padding: 20px;
+  box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,0.04);
+  cursor: pointer; transition: all 0.25s; position: relative; overflow: hidden;
+}
+.uni-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--grad); transform: scaleX(0); transform-origin: left;
+  transition: transform 0.3s;
+}
+.uni-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.uni-card:hover::before { transform: scaleX(1); }
+.uni-card-top { display: flex; gap: 12px; margin-bottom: 12px; }
+.uni-emoji {
+  width: 46px; height: 46px; border-radius: 12px;
+  background: linear-gradient(135deg,#f0f9ff,#f0fdf4);
+  border: 1px solid var(--gray-200);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0;
+}
+.uni-name {
+  font-family: 'Noto Sans', sans-serif; font-weight: 800;
+  font-size: 0.82rem; color: var(--gray-900); margin-bottom: 4px; line-height: 1.3;
+}
+.uni-loc { font-size: 0.72rem; color: var(--gray-400); font-weight: 500; }
+.uni-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
+.tag {
+  padding: 3px 10px; border-radius: var(--radius-full);
+  font-size: 0.68rem; font-weight: 600; border: 1px solid transparent;
+}
+.tag-blue { background: #eff6ff; color: #1d4ed8; border-color: #bfdbfe; }
+.tag-green { background: #f0fdf4; color: #15803d; border-color: #bbf7d0; }
+.tag-yellow { background: #fefce8; color: #b45309; border-color: #fde68a; }
+.tag-purple { background: #fdf4ff; color: #7e22ce; border-color: #e9d5ff; }
+.tag-red { background: #fff1f2; color: #be123c; border-color: #fecdd3; }
+.tag-gray { background: var(--gray-50); color: var(--gray-500); border-color: var(--gray-200); }
+
+.uni-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+.stat-box {
+  background: var(--gray-50); border-radius: 8px; padding: 8px 6px;
+  text-align: center; border: 1px solid var(--gray-100);
+}
+.stat-box-num { font-family: 'Noto Sans', sans-serif; font-size: 0.82rem; font-weight: 800; color: var(--gray-900); }
+.stat-box-lbl { font-size: 0.6rem; color: var(--gray-400); margin-top: 1px; font-weight: 500; }
+.uni-footer { display: flex; gap: 8px; }
+.uni-btn-detail {
+  flex: 1; padding: 8px; border-radius: 8px; cursor: pointer;
+  font-size: 0.78rem; font-weight: 600; font-family: 'Inter', sans-serif;
+  border: 1.5px solid var(--gray-200); background: white;
+  color: var(--gray-500); transition: all 0.2s;
+}
+.uni-btn-detail:hover { border-color: var(--blue); color: var(--blue); }
+
+
+/* ═══════════════════════════════════════
+   ENT FINDER
+═══════════════════════════════════════ */
+.finder-wrap { max-width: 660px; margin: 0 auto; }
+.finder-card { background: white; border-radius: 20px; padding: 32px; box-shadow: var(--shadow); border: 1px solid rgba(0,0,0,0.04); }
+.finder-title { font-family: 'Noto Sans', sans-serif; font-size: 1.1rem; font-weight: 800; color: var(--gray-900); margin-bottom: 6px; }
+.finder-sub { color: var(--gray-500); font-size: 0.88rem; margin-bottom: 28px; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+.form-group { display: flex; flex-direction: column; gap: 7px; }
+.form-label { font-size: 0.78rem; font-weight: 600; color: var(--gray-700); }
+.form-req { color: #ef4444; }
+.form-input, .form-select-lg {
+  padding: 12px 14px; border-radius: var(--radius-sm);
+  background: var(--gray-50); border: 1.5px solid var(--gray-200);
+  color: var(--gray-900); font-size: 0.9rem; font-family: 'Inter', sans-serif;
+}
+.form-select-lg { appearance: none; cursor: pointer; }
+.form-hint { font-size: 0.7rem; color: var(--gray-400); font-weight: 500; }
+.finder-btn {
+  width: 100%; padding: 14px; border-radius: var(--radius-sm);
+  background: var(--grad-btn); color: white; font-family: 'Noto Sans', sans-serif;
+  font-weight: 700; font-size: 0.9rem; border: none; cursor: pointer;
+  box-shadow: 0 4px 16px rgba(59,130,246,0.3); transition: all 0.2s; margin-top: 8px;
+}
+.finder-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(59,130,246,0.4); }
+
+.result-card {
+  background: white; border-radius: var(--radius); padding: 14px 18px;
+  margin-bottom: 10px; display: flex; align-items: center; gap: 14px;
+  animation: slideUp 0.3s ease both; cursor: pointer;
+  box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,0.04); transition: all 0.2s;
+}
+.result-card:hover { box-shadow: var(--shadow); transform: translateX(4px); }
+.result-emoji {
+  width: 42px; height: 42px; background: linear-gradient(135deg,#f0f9ff,#f0fdf4);
+  border: 1px solid var(--gray-200); border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0;
+}
+.result-info { flex: 1; min-width: 0; }
+.result-name { font-weight: 700; font-size: 0.88rem; color: var(--gray-900); margin-bottom: 3px; }
+.result-meta { font-size: 0.72rem; color: var(--gray-400); }
+.grant-pill {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 2px 8px; border-radius: var(--radius-full);
+  background: #f0fdf4; border: 1px solid #bbf7d0;
+  color: #15803d; font-size: 0.65rem; font-weight: 700; margin-left: 6px;
+}
+.chance-box {
+  flex-shrink: 0; border-radius: 12px; padding: 8px 14px; text-align: center;
+}
+.chance-num { font-family: 'Noto Sans', sans-serif; font-size: 1.2rem; font-weight: 900; }
+.chance-lbl { font-size: 0.6rem; color: var(--gray-400); font-weight: 500; margin-top: 1px; }
+.c-green { background: #f0fdf4; }
+.c-green .chance-num { color: #15803d; }
+.c-yellow { background: #fffbeb; }
+.c-yellow .chance-num { color: #b45309; }
+.c-red { background: #fff1f2; }
+.c-red .chance-num { color: #be123c; }
+
+/* ═══════════════════════════════════════
+   MODAL
+═══════════════════════════════════════ */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 500;
+  background: rgba(0,0,0,0.45); backdrop-filter: blur(10px);
+  display: flex; align-items: flex-end; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity 0.3s;
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+.modal-sheet {
+  background: white; border-radius: 24px 24px 0 0;
+  width: 100%; max-width: 660px; max-height: 90vh; overflow-y: auto;
+  padding: 0 28px 40px;
+  transform: translateY(24px); transition: transform 0.35s cubic-bezier(.22,.68,0,1.2);
+  box-shadow: 0 -8px 48px rgba(0,0,0,0.16);
+}
+.modal-overlay.open .modal-sheet { transform: translateY(0); }
+.modal-bar { width: 44px; height: 5px; background: var(--gray-200); border-radius: 10px; margin: 14px auto 0; }
+.modal-grad-bar { height: 4px; background: var(--grad); margin: 20px -28px 24px; }
+.modal-head { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 22px; }
+.modal-emoji {
+  width: 58px; height: 58px; border-radius: 16px;
+  background: linear-gradient(135deg,#f0f9ff,#f0fdf4); border: 1.5px solid var(--gray-200);
+  display: flex; align-items: center; justify-content: center; font-size: 26px; flex-shrink: 0;
+}
+.modal-name { font-family: 'Noto Sans', sans-serif; font-size: 1rem; font-weight: 800; color: var(--gray-900); margin-bottom: 5px; line-height: 1.3; }
+.modal-sub { font-size: 0.78rem; color: var(--gray-400); font-weight: 500; }
+.modal-close {
+  margin-left: auto; background: var(--gray-100); border: 1.5px solid var(--gray-200);
+  border-radius: 50%; width: 34px; height: 34px; cursor: pointer; color: var(--gray-500);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s;
+}
+.modal-close:hover { background: var(--gray-200); color: var(--gray-900); }
+.modal-sec { font-size: 0.7rem; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; }
+.modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 22px; }
+.modal-cell { background: var(--gray-50); border-radius: 10px; padding: 10px 14px; border: 1px solid var(--gray-100); }
+.modal-cell-lbl { font-size: 0.66rem; color: var(--gray-400); font-weight: 500; margin-bottom: 3px; }
+.modal-cell-val { font-size: 0.88rem; font-weight: 700; color: var(--gray-900); }
+.modal-specs { background: var(--gray-50); border-radius: 12px; padding: 16px; font-size: 0.88rem; color: var(--gray-700); line-height: 1.7; border: 1px solid var(--gray-100); margin-bottom: 20px; }
+
+
+/* ═══════════════════════════════════════
+   ANIMATIONS
+═══════════════════════════════════════ */
+@keyframes slideUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+@keyframes bounce { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-6px)} }
+
+/* ═══════════════════════════════════════
+   SCROLLBAR
+═══════════════════════════════════════ */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--gray-100); }
+::-webkit-scrollbar-thumb { background: var(--gray-300, #cbd5e1); border-radius: 10px; }
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════ */
+@media(max-width: 640px) {
+  .stats-row { grid-template-columns: 1fr 1fr; }
+  .form-grid { grid-template-columns: 1fr; }
+  .unis-grid { grid-template-columns: 1fr; }
+  .nav-tabs { display: none; }
+  .modal-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════
+     SPLASH SCREEN
+══════════════════════════════════════════════ -->
+<div id="splash" class="splash">
+  <div class="splash-logo-wrap">
+    <div style="display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:4px;">
+  <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="19" cy="19" r="16" stroke="url(#sg1)" stroke-width="2.2" stroke-dasharray="5 2.5"/>
+    <defs>
+      <linearGradient id="sg1" x1="0" y1="0" x2="38" y2="38" gradientUnits="userSpaceOnUse">
+        <stop stop-color="#3b82f6"/>
+        <stop offset="1" stop-color="#10b981"/>
+      </linearGradient>
+    </defs>
+    <!-- Compass arrow pointing NE -->
+    <path d="M13 25 L18.5 13 L24 25" stroke="url(#sg1)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M15 21.5 L22 21.5" stroke="url(#sg1)" stroke-width="1.6" stroke-linecap="round"/>
+    <!-- Center dot -->
+    <circle cx="19" cy="19" r="1.8" fill="#3b82f6"/>
+  </svg>
+  <span style="font-family:system-ui,-apple-system,sans-serif;font-size:26px;font-weight:800;letter-spacing:-0.8px;color:#111827;">Uni<span style="font-weight:300;color:#374151;">Guide</span><span style="font-size:11px;font-weight:700;color:#3b82f6;margin-left:4px;vertical-align:middle;">KZ</span></span>
+</div>
+  </div>
+
+  <!-- Переключатель языков на сплеше -->
+  <div class="lang-switch" style="margin-bottom:20px;">
+    <button class="lang-btn active" onclick="setLang('ru')">RU</button>
+    <button class="lang-btn" onclick="setLang('kz')">ҚАЗ</button>
+  </div>
+
+  <div class="splash-card">
+    <div class="splash-card-title" id="sp-title">Қазақстан ЖОО-ларына саналы түрде түс</div>
+    <div class="splash-card-sub" id="sp-sub">ҰБТ балдарына сәйкес университеттерді бір минутта тап</div>
+
+    <div class="splash-feature">
+      <div class="splash-feature-icon" style="background:#eff6ff;">📚</div>
+      <div class="splash-feature-text" id="sp-f1">127 қазақстандық университет және олардың мамандықтары</div>
+    </div>
+    <div class="splash-feature">
+      <div class="splash-feature-icon" style="background:#f0fdf4;">🏆</div>
+      <div class="splash-feature-text" id="sp-f2">Өту ықтималдығын және грант мүмкіндігін көрсету</div>
+    </div>
+    <div class="splash-feature">
+      <div class="splash-feature-icon" style="background:#fdf4ff;">✦</div>
+      <div class="splash-feature-text" id="sp-f3">Подбор ВУЗов по баллам ЕНТ и специальности</div>
+    </div>
+
+    <button class="splash-btn" onclick="goToApp()" id="sp-btn">Бастау →</button>
+  </div>
+  <div class="splash-footer" id="sp-footer">2025 жылғы ҰБТ нәтижелері бойынша</div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     MAIN APP
+══════════════════════════════════════════════ -->
+<div id="app" style="display:none;">
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-logo" onclick="showScreen('home')" style="cursor:pointer;">
+      <div style="display:flex;align-items:center;gap:8px;">
+  <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="14" cy="14" r="11.5" stroke="url(#ng1)" stroke-width="2" stroke-dasharray="4 2"/>
+    <defs>
+      <linearGradient id="ng1" x1="0" y1="0" x2="28" y2="28" gradientUnits="userSpaceOnUse">
+        <stop stop-color="#3b82f6"/>
+        <stop offset="1" stop-color="#10b981"/>
+      </linearGradient>
+    </defs>
+    <path d="M9.5 19 L14 9.5 L18.5 19" stroke="url(#ng1)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M11 16.5 L17 16.5" stroke="url(#ng1)" stroke-width="1.5" stroke-linecap="round"/>
+    <circle cx="14" cy="14" r="1.5" fill="#3b82f6"/>
+  </svg>
+  <span style="font-family:system-ui,-apple-system,sans-serif;font-size:18px;font-weight:800;letter-spacing:-0.5px;color:#111827;">Uni<span style="font-weight:300;color:#374151;">Guide</span><span style="font-size:9px;font-weight:700;color:#3b82f6;margin-left:3px;vertical-align:middle;">KZ</span></span>
+</div>
+    </div>
+    <div class="nav-tabs">
+      <button class="nav-tab active" onclick="showScreen('home')" id="tab-home" data-ru="🏠 Главная" data-kz="🏠 Басты">🏠 Главная</button>
+      <button class="nav-tab" onclick="showScreen('catalog')" id="tab-catalog" data-ru="📚 Каталог" data-kz="📚 Каталог">📚 Каталог</button>
+      <button class="nav-tab" onclick="showScreen('finder')" id="tab-finder" data-ru="📊 Подбор ЕНТ" data-kz="📊 ҰБТ бойынша">📊 Подбор ЕНТ</button>
+    </div>
+    <div class="lang-switch">
+      <button class="lang-btn" id="nav-ru" onclick="setLang('ru')">RU</button>
+      <button class="lang-btn" id="nav-kz" onclick="setLang('kz')">ҚАЗ</button>
+    </div>
+  </nav>
+
+  <!-- ── HOME ── -->
+  <div class="screen active" id="screen-home">
+    <div class="hero">
+      <div class="hero-badge" id="h-badge">🎓 Выпускник.kz · 2025–2026</div>
+      <h1 class="hero-title">
+        <span id="h-title1">Все университеты</span><br>
+        <span class="grad-text" id="h-title2">Казахстана</span>
+      </h1>
+      <p class="hero-sub" id="h-sub">Найди свой ВУЗ по баллам ЕНТ, городу и специальности. Подбери университет за минуту.</p>
+      <div class="hero-actions">
+        <button class="btn btn-primary" onclick="showScreen('catalog')" id="h-btn1">📚 Каталог ВУЗов</button>
+        <button class="btn btn-secondary" onclick="showScreen('finder')" id="h-btn3">📊 Подбор по ЕНТ</button>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-icon">🏛️</div><div class="stat-num" id="unis-count-stat">100</div><div class="stat-label" id="s-unis">Университетов</div></div>
+      <div class="stat-card"><div class="stat-icon">👨‍🎓</div><div class="stat-num">670K</div><div class="stat-label" id="s-students">Студентов</div></div>
+      <div class="stat-card"><div class="stat-icon">🏙️</div><div class="stat-num">27</div><div class="stat-label" id="s-cities">Городов</div></div>
+      <div class="stat-card"><div class="stat-icon">📅</div><div class="stat-num">2026</div><div class="stat-label" id="s-year">Актуальность</div></div>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🔍</div>
+        <div class="feature-title" id="f1-title">Умный поиск</div>
+        <div class="feature-desc" id="f1-desc">Фильтруй ВУЗы по городу, типу, направлению и проходному баллу ЕНТ. Вся база обновлена на 2025–2026.</div>
+        <button class="btn btn-primary" style="font-size:0.82rem;padding:9px 18px;" onclick="showScreen('catalog')" id="f1-btn">Открыть каталог</button>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📚</div>
+        <div class="feature-title" id="f2-title">Каталог ВУЗов</div>
+        <div class="feature-desc" id="f2-desc">Все университеты с фильтрами по городу, типу, направлению. Детальная информация по каждому.</div>
+        <button class="btn btn-secondary" style="font-size:0.82rem;padding:9px 18px;" onclick="showScreen('catalog')" id="f2-btn">Открыть каталог</button>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <div class="feature-title" id="f3-title">Подбор по ЕНТ</div>
+        <div class="feature-desc" id="f3-desc">Введи свой балл ЕНТ и направление — покажем реальные шансы поступления и где возможен грант.</div>
+        <button class="btn btn-secondary" style="font-size:0.82rem;padding:9px 18px;" onclick="showScreen('finder')" id="f3-btn">Подобрать ВУЗ</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ── CATALOG ── -->
+  <div class="screen" id="screen-catalog">
+    <div class="section">
+      <div style="margin-bottom:28px;">
+        <div class="badge" style="background:#f0fdf4;color:#15803d;border:1px solid #bbf7d0;margin-bottom:12px;" id="cat-badge">📚 База данных</div>
+        <h2 style="font-family:'Noto Sans',sans-serif;font-size:1.7rem;font-weight:900;color:var(--gray-900);margin-bottom:6px;" id="cat-title">Каталог университетов</h2>
+        <p style="color:var(--gray-500);font-size:0.9rem;" id="cat-sub">Все ВУЗы Казахстана · Данные из Выпускник.kz</p>
+      </div>
+
+      <div class="filter-bar">
+        <select class="filter-select" id="f-city" onchange="renderCatalog()">
+          <option value="" id="fc-all">Все города</option>
+          <option>Астана</option><option>Алматы</option><option>Шымкент</option>
+          <option>Қарағанды</option><option>Өскемен</option><option>Ақтөбе</option>
+          <option>Атырау</option><option>Орал</option><option>Павлодар</option>
+          <option>Семей</option><option>Костанай</option><option>Петропавл</option>
+          <option>Талдықорған</option><option>Кокшетау</option><option>Қызылорда</option>
+          <option>Тараз</option><option>Ақтау</option><option>Түркістан</option>
+          <option>Каскелен</option><option>Теміртау</option><option>Рудный</option>
+          <option>Арқалық</option>
+          <option>Жезқазған</option><option>Екібастұз</option>
+        </select>
+        <select class="filter-select" id="f-type" onchange="renderCatalog()">
+          <option value="" id="ft-all">Все типы</option>
+          <option>Ұлттық</option><option>Халықаралық</option><option>Мемлекеттік</option>
+          <option>Акционерленген</option><option>Жеке</option><option>Арнаулы</option>
+        </select>
+        <select class="filter-select" id="f-field" onchange="renderCatalog()">
+          <option value="" id="ff-all">Все направления</option>
+          <option value="it">IT</option>
+          <option value="medicine" id="ff-med">Медицина</option>
+          <option value="engineering" id="ff-eng">Инженерия</option>
+          <option value="law" id="ff-law">Право</option>
+          <option value="economics" id="ff-eco">Экономика</option>
+          <option value="pedagogy" id="ff-ped">Педагогика</option>
+          <option value="humanities" id="ff-hum">Гуманитарные</option>
+          <option value="art" id="ff-art">Искусство</option>
+          <option value="agriculture" id="ff-agr">Сельское хоз.</option>
+          <option value="military" id="ff-mil">Военные</option>
+        </select>
+        <input type="text" class="filter-input" id="f-search" data-ru="Поиск: ЕНУ, КБТУ, AITU..." data-kz="Іздеу: ЕНУ, КБТУ, AITU..." placeholder="🔎 Поиск: AITU, КБТУ, ЕНУ, НУ..." oninput="renderCatalog()" title="Поиск по полному или сокращённому названию">
+        <div class="count-pill" id="cat-count">Загрузка...</div>
+      </div>
+
+      <div class="unis-grid" id="unis-grid"></div>
+    </div>
+  </div>
+
+  <!-- ── ENT FINDER ── -->
+  <div class="screen" id="screen-finder">
+    <div class="section">
+      <div class="finder-wrap">
+        <div style="text-align:center;margin-bottom:32px;">
+          <div style="width:60px;height:60px;border-radius:18px;background:linear-gradient(135deg,#8b5cf6,#ec4899);display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 16px;box-shadow:0 6px 20px rgba(139,92,246,0.3);">📊</div>
+          <h2 style="font-family:'Noto Sans',sans-serif;font-size:1.6rem;font-weight:900;color:var(--gray-900);margin-bottom:8px;" id="finder-title">Подбор по ЕНТ</h2>
+          <p style="color:var(--gray-500);font-size:0.92rem;" id="finder-sub">Введи свой балл — покажем шансы поступления и где возможен грант</p>
+        </div>
+
+        <div class="finder-card">
+          <div class="finder-title" id="fp-title">Твои параметры</div>
+          <div class="finder-sub" id="fp-sub">Укажи баллы ЕНТ и интересующее направление</div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" id="fl-score">Балл ЕНТ <span class="form-req">*</span></label>
+              <input type="number" class="form-input" id="ent-score" placeholder="0–140" min="0" max="140">
+              <div class="form-hint" id="fh-score">Общий балл по всем предметам</div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" id="fl-field">Направление <span class="form-req">*</span></label>
+              <select class="form-select-lg" id="ent-field">
+                <option value="" id="fe-pick">Выберите</option>
+                <option value="it">IT / Информатика</option>
+                <option value="engineering" id="fe-eng">Инженерия</option>
+                <option value="medicine" id="fe-med">Медицина</option>
+                <option value="law" id="fe-law">Право</option>
+                <option value="economics" id="fe-eco">Экономика</option>
+                <option value="pedagogy" id="fe-ped">Педагогика</option>
+                <option value="humanities" id="fe-hum">Гуманитарные</option>
+                <option value="natural" id="fe-nat">Естественные науки</option>
+                <option value="agriculture" id="fe-agr">Сельское хозяйство</option>
+                <option value="military" id="fe-mil">Военное</option>
+                <option value="art">Искусство</option>
+                <option value="sport">Спорт</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" id="fl-city">Город (необязательно)</label>
+              <select class="form-select-lg" id="ent-city">
+                <option value="" id="fec-all">Все города</option>
+                <option>Астана</option><option>Алматы</option><option>Шымкент</option>
+                <option>Қарағанды</option><option>Ақтөбе</option><option>Каскелен</option><option>Семей</option><option>Өскемен</option><option>Павлодар</option><option>Орал</option><option>Атырау</option><option>Ақтау</option><option>Тараз</option><option>Қызылорда</option><option>Түркістан</option><option>Петропавл</option><option>Көкшетау</option><option>Талдықорған</option><option>Рудный</option><option>Арқалық</option><option>Қостанай</option>
+              </select>
+            </div>
+            <div class="form-group" style="justify-content:flex-end;">
+              <button class="finder-btn" onclick="runFinder()" id="finder-btn">Найти университеты →</button>
+            </div>
+          </div>
+
+          <div id="finder-results" style="margin-top:20px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end #app -->
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal" onclick="closeModalOut(event)">
+  <div class="modal-sheet">
+    <div class="modal-bar"></div>
+    <div class="modal-grad-bar"></div>
+    <div class="modal-head">
+      <div class="modal-emoji" id="m-emoji"></div>
+      <div style="flex:1;min-width:0;">
+        <div class="modal-name" id="m-name"></div>
+        <div class="modal-sub" id="m-sub"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-sec" id="m-sec1">Основная информация</div>
+    <div class="modal-grid" id="m-grid"></div>
+    <div class="modal-sec" id="m-sec2">Специализации</div>
+    <div class="modal-specs" id="m-spec"></div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════════ -->
+<script>
+// ═══════════════ ПЕРЕВОДЫ ═══════════════
+const T = {
+  ru: {
+    sp_title: 'Қазақстан ЖОО-ларына саналы түрде түс',
+    sp_sub: 'ҰБТ балдарына сәйкес университеттерді бір минутта тап',
+    sp_f1: '127 қазақстандық университет және олардың мамандықтары',
+    sp_f2: 'Өту ықтималдығын және грант мүмкіндігін көрсету',
+    sp_f3: 'ҰБТ балдары мен мамандыққа сәйкес ЖОО іздеу',
+    sp_btn: 'Бастау →',
+    sp_footer: '2025 жылғы ҰБТ нәтижелері бойынша',
+
+    tab_home: '🏠 Главная',
+    tab_catalog: '📚 Каталог', tab_finder: '📊 Подбор ЕНТ',
+
+    h_badge: '🎓 Выпускник.kz · 2025–2026',
+    h_title1: 'Все университеты', h_title2: 'Казахстана',
+    h_sub: 'Найди свой ВУЗ по баллам ЕНТ, городу и специальности. Подбери университет за минуту.',
+    h_btn1: '📚 Каталог ВУЗов', h_btn2: '📚 Каталог', h_btn3: '📊 Подбор по ЕНТ',
+    s_unis: 'Университетов', s_students: 'Студентов', s_cities: 'Городов', s_year: 'Актуальность',
+    f1_title: 'Умный поиск', f1_desc: 'Фильтруй ВУЗы по городу, типу, направлению и баллам ЕНТ. Вся база обновлена на 2025–2026.', f1_btn: 'Открыть каталог',
+    f2_title: 'Каталог ВУЗов', f2_desc: 'Все университеты с фильтрами по городу, типу, направлению. Детальная информация по каждому.', f2_btn: 'Открыть каталог',
+    f3_title: 'Подбор по ЕНТ', f3_desc: 'Введи свой балл ЕНТ и направление — покажем реальные шансы поступления и где возможен грант.', f3_btn: 'Подобрать ВУЗ',
+
+    cat_badge: '📚 База данных', cat_title: 'Каталог университетов',
+    cat_sub: 'Все ВУЗы Казахстана · Данные из Выпускник.kz',
+    fc_all: 'Все города', ft_all: 'Все типы', ff_all: 'Все направления',
+    found: 'Найдено:', unis: 'ВУЗов',
+    detail: 'Подробнее',
+
+    finder_title: 'Подбор по ЕНТ',
+    finder_sub: 'Введи свой балл — покажем шансы поступления и где возможен грант',
+    fp_title: 'Твои параметры', fp_sub: 'Укажи баллы ЕНТ и интересующее направление',
+    fl_score: 'Балл ЕНТ', fl_field: 'Направление', fl_city: 'Город (необязательно)',
+    fh_score: 'Общий балл по всем предметам',
+    fe_pick: 'Выберите',
+    finder_btn: 'Найти университеты →',
+    no_result: 'Нет подходящих ВУЗов', no_result_sub: 'Попробуй изменить параметры',
+    chance: 'шанс', grant_possible: '🎓 Грант',
+    m_sec1: 'Основная информация', m_sec2: 'Специализации',
+    m_min: 'Мин. балл ЕНТ', m_grant_score: 'Балл на грант', m_cost: 'Стоимость',
+    m_code: 'Код ВУЗа', m_city: 'Город', m_type: 'Тип', m_founded: 'Основан', m_rector: 'Ректор',
+  },
+  kz: {
+    sp_title: 'Қазақстан ЖОО-ларына саналы түрде түс',
+    sp_sub: 'ҰБТ балдарына сәйкес университеттерді бір минутта тап',
+    sp_f1: '127 қазақстандық университет және олардың мамандықтары',
+    sp_f2: 'Өту ықтималдығын және грант мүмкіндігін көрсету',
+    sp_f3: 'ҰБТ балдары мен мамандыққа сәйкес ЖОО іздеу',
+    sp_btn: 'Бастау →',
+    sp_footer: '2025 жылғы ҰБТ нәтижелері бойынша',
+
+    tab_home: '🏠 Басты',
+    tab_catalog: '📚 Каталог', tab_finder: '📊 ҰБТ бойынша',
+
+    h_badge: '🎓 Выпускник.kz · 2025–2026',
+    h_title1: 'Барлық университеттер', h_title2: 'Қазақстанда',
+    h_sub: 'ҰБТ балдарыңа, қалаңа және мамандығыңа сәйкес ЖОО тап. Бір минутта университет таңда.',
+    h_btn1: '📚 ЖОО каталогы', h_btn2: '📚 Каталог', h_btn3: '📊 ҰБТ бойынша',
+    s_unis: 'Университет', s_students: 'Студент', s_cities: 'Қала', s_year: 'Өзектілік',
+    f1_title: 'Ақылды іздеу', f1_desc: 'ЖОО-ларды қала, түрі, бағыты және ҰБТ балдары бойынша сүз. База 2025–2026 жылға жаңартылған.', f1_btn: 'Каталогты ашу',
+    f2_title: 'ЖОО каталогы', f2_desc: 'Барлық университеттер қала, түр, бағыт бойынша сүзгілермен. Әрқайсысы туралы толық ақпарат.', f2_btn: 'Каталогты ашу',
+    f3_title: 'ҰБТ бойынша таңдау', f3_desc: 'ҰБТ балыңды енгіз — оқуға түсу мүмкіндігін және грант аламын ба соны көрсетеміз.', f3_btn: 'ЖОО табу',
+
+    cat_badge: '📚 Деректер базасы', cat_title: 'Университеттер каталогы',
+    cat_sub: 'Қазақстанның барлық ЖОО · Деректер: Выпускник.kz',
+    fc_all: 'Барлық қалалар', ft_all: 'Барлық түрлер', ff_all: 'Барлық бағыттар',
+    found: 'Табылды:', unis: 'ЖОО',
+    detail: 'Толығырақ',
+
+    finder_title: 'ҰБТ бойынша іздеу',
+    finder_sub: 'Балыңды енгіз — оқуға түсу мүмкіндігін және грантты көрсетеміз',
+    fp_title: 'Параметрлерің', fp_sub: 'ҰБТ балдарыңды және қызығатын бағытыңды көрсет',
+    fl_score: 'ҰБТ балы', fl_field: 'Бағыт', fl_city: 'Қала (міндетті емес)',
+    fh_score: 'Барлық пәндер бойынша жалпы балл',
+    fe_pick: 'Таңдаңыз',
+    finder_btn: 'Университеттерді табу →',
+    no_result: 'Сәйкес ЖОО табылмады', no_result_sub: 'Параметрлерді өзгертіп көр',
+    chance: 'мүмкіндік', grant_possible: '🎓 Грант',
+    m_sec1: 'Негізгі ақпарат', m_sec2: 'Мамандықтар',
+    m_min: 'Ең төменгі ҰБТ балы', m_grant_score: 'Грант балы', m_cost: 'Оқу құны',
+    m_code: 'ЖОО коды', m_city: 'Қала', m_type: 'Түрі', m_founded: 'Құрылған', m_rector: 'Ректор',
+  }
+};
+
+let lang = 'ru';
+let currentModal = null;
+
+// ═══════════════ ЯЗЫК ═══════════════
+function setLang(l) {
+  lang = l;
+  localStorage.setItem('ug_lang', l);
+  // splash lang buttons
+  const uniStatEl = document.getElementById('unis-count-stat'); if(uniStatEl) uniStatEl.textContent = UNIS.length;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  if (l === 'ru') { document.querySelectorAll('[id^="nav-ru"], .lang-btn:first-child').forEach(b => b.classList.add('active')); }
+  else { document.querySelectorAll('[id^="nav-kz"], .lang-btn:last-child').forEach(b => b.classList.add('active')); }
+  applyTranslations();
+  renderCatalog();
+}
+
+function applyTranslations() {
+  const t = T[lang];
+  const s = (id, key) => { const el = document.getElementById(id); if(el && t[key]!==undefined) el.innerHTML = t[key]; };
+
+  // splash
+  s('sp-title','sp_title'); s('sp-sub','sp_sub');
+  s('sp-f1','sp_f1'); s('sp-f2','sp_f2'); s('sp-f3','sp_f3');
+  s('sp-btn','sp_btn'); s('sp-footer','sp_footer');
+
+  // nav tabs
+  s('tab-home','tab_home');
+  s('tab-catalog','tab_catalog'); s('tab-finder','tab_finder');
+
+  // home
+  s('h-badge','h_badge'); s('h-title1','h_title1'); s('h-title2','h_title2');
+  s('h-sub','h_sub'); s('h-btn1','h_btn1'); s('h-btn2','h_btn2'); s('h-btn3','h_btn3');
+  s('s-unis','s_unis'); s('s-students','s_students'); s('s-cities','s_cities'); s('s-year','s_year');
+  s('f1-title','f1_title'); s('f1-desc','f1_desc'); s('f1-btn','f1_btn');
+  s('f2-title','f2_title'); s('f2-desc','f2_desc'); s('f2-btn','f2_btn');
+  s('f3-title','f3_title'); s('f3-desc','f3_desc'); s('f3-btn','f3_btn');
+
+  // catalog
+  s('cat-badge','cat_badge'); s('cat-title','cat_title'); s('cat-sub','cat_sub');
+  s('fc-all','fc_all'); s('ft-all','ft_all'); s('ff-all','ff_all');
+
+  // finder
+  s('finder-title','finder_title'); s('finder-sub','finder_sub');
+  s('fp-title','fp_title'); s('fp-sub','fp_sub');
+  s('fl-score','fl_score'); s('fl-field','fl_field'); s('fl-city','fl_city');
+  s('fh-score','fh_score'); s('fe-pick','fe_pick'); s('finder-btn','finder_btn');
+
+  // modal
+  s('m-sec1','m_sec1'); s('m-sec2','m_sec2');
+
+  // filter input placeholder
+  const fi = document.getElementById('f-search');
+  if (fi) fi.placeholder = lang === 'ru' ? '🔎 Поиск...' : '🔎 Іздеу...';
+
+  // nav lang buttons
+  const nr = document.getElementById('nav-ru');
+  const nk = document.getElementById('nav-kz');
+  if (nr && nk) {
+    nr.classList.toggle('active', lang === 'ru');
+    nk.classList.toggle('active', lang === 'kz');
+  }
+}
+
+// ═══════════════ APP NAVIGATION ═══════════════
+function goToApp() {
+  document.getElementById('splash').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  applyTranslations();
+  renderCatalog();
+}
+
+function showScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('screen-' + name).classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+  if (name === 'catalog') renderCatalog();
+}
+
+
+// ═══════════════ DATA ═══════════════
+const UNIS = [
+  {id:1,emoji:'🏛️',name:{ru:'ЕНУ им. Гумилёва',kz:'Гумилёв атындағы ЕҰУ'},full:{ru:'Евразийский национальный университет им. Л.Н. Гумилёва',kz:'Л.Н. Гумилёв атындағы Еуразия ұлттық университеті'},city:'Астана',type:'Ұлттық',fields:['it','engineering','economics','law','humanities','natural','pedagogy'],minS:65,grantS:95,tuition:'1 140 000–1 600 000₸',founded:1996,code:'013',specs:{ru:'Крупнейший ВУЗ столицы. 65 специальностей. Право 95+, МО 80+, педагогика 70+.',kz:'Астананың ең ірі ЖОО. 65 мамандық. Құқық 95+, МО 80+, педагогика 70+.'},abbr:["НУ", "NU", "Nazarbayev", "Назарбаев"]},
+  {id:2,emoji:'🔬',name:{ru:'КазНУ им. аль-Фараби',kz:'Әл-Фараби атындағы ҚазҰУ'},full:{ru:'Казахский национальный университет им. аль-Фараби',kz:'Әл-Фараби атындағы Қазақ ұлттық университеті'},city:'Алматы',type:'Ұлттық',fields:['it','engineering','medicine','law','economics','humanities','natural','pedagogy'],minS:65,grantS:80,tuition:'300 000–1 700 000₸',founded:1934,code:'027',specs:{ru:'100+ специальностей. QS 163. Медицина 115+, право 75+, физика 70+.',kz:'100+ мамандық. QS 163. Медицина 115+, Құқық 75+, Физика 70+.'},abbr:["КИМЭП", "KIMEP"]},
+  {id:3,emoji:'⚙️',name:{ru:'Satbayev University',kz:'Satbayev University'},full:{ru:'Satbayev University (КазНТУ им. К.И. Сатпаева)',kz:'Satbayev University (К.И. Сәтбаев атындағы ҚазҰТУ)'},city:'Алматы',type:'Ұлттық',fields:['engineering','it','natural'],minS:65,grantS:85,tuition:'350 000–1 400 000₸',founded:1934,code:'029',specs:{ru:'7 технических институтов. Нефтегаз, геология, IT, металлургия. №1 тех. ВУЗов КЗ.',kz:'7 техникалық институт. Мұнай-газ, геология, IT, металлургия. КЗ техникалық ЖОО №1.'},abbr:["ЕНУ", "ENU", "Гумилева", "Гумилёва"]},
+  {id:4,emoji:'🏥',name:{ru:'КазНМУ им. Асфендиярова',kz:'Асфендияров атындағы ҚазҰМУ'},full:{ru:'Казахский национальный медицинский университет им. С.Д. Асфендиярова',kz:'С.Д. Асфендияров атындағы Қазақ ұлттық медицина университеті'},city:'Алматы',type:'Ұлттық',fields:['medicine'],minS:70,grantS:111,tuition:'600 000–2 100 000₸',founded:1931,code:'026',specs:{ru:'Лечебное дело (грант 124б), Стоматология (136б), Педиатрия (111б), Фармация.',kz:'Емдеу ісі (грант 124б), Стоматология (136б), Педиатрия (111б), Фармация.'},abbr:["КазНУ", "КНУ", "казгу", "КАЗГУ", "аль-Фараби"]},
+  {id:5,emoji:'📖',name:{ru:'КазНПУ им. Абая',kz:'Абай атындағы ҚазҰПУ'},full:{ru:'Казахский национальный педагогический университет им. Абая',kz:'Абай атындағы Қазақ ұлттық педагогикалық университеті'},city:'Алматы',type:'Ұлттық',fields:['pedagogy','humanities','natural'],minS:65,grantS:75,tuition:'220 000–400 000₸',founded:1928,code:'007',specs:{ru:'Старейший ВУЗ КЗ (1928). 12 педагогических специальностей.',kz:'ҚЗ-ның ең көне ЖОО (1928). 12 педагогикалық мамандық.'},abbr:["NU", "НУ", "Назарбаев"]},
+  {id:6,emoji:'🌾',name:{ru:'КазНАУ',kz:'ҚазҰАУ'},full:{ru:'Казахский национальный аграрный исследовательский университет',kz:'Қазақ ұлттық аграрлық зерттеу университеті'},city:'Алматы',type:'Ұлттық',fields:['agriculture','natural','engineering'],minS:60,grantS:75,tuition:'280 000–550 000₸',founded:1929,code:'024',specs:{ru:'42 специальности. Агрономия, Ветеринария, Зоотехника, Агроинженерия.',kz:'42 мамандық. Агрономия, Ветеринария, Зоотехника, Агроинженерия.'},abbr:["АУЭС", "AUES", "Даукеева", "Энергетика"]},
+  {id:10,emoji:'🌐',name:{ru:'КазУМОиМЯ им. Абылай хана',kz:'Абылай хан атындағы ҚазХҚжӘТУ'},full:{ru:'Казахский ун-т международных отношений и мировых языков им. Абылай хана',kz:'Абылай хан атындағы Қазақ халықаралық қатынастар және әлем тілдері университеті'},city:'Алматы',type:'Ұлттық',fields:['humanities','law'],minS:65,grantS:82,tuition:'350 000–700 000₸',founded:1941,code:'023',specs:{ru:'Международные отношения, Перевод, Лингвистика, Дипломатия.',kz:'Халықаралық қатынастар, Аударма, Лингвистика, Дипломатия.'},abbr:["КазНТУ", "Сатпаев", "KNTU", "Satbayev", "КазНИТУ"]},
+  {id:11,emoji:'📊',name:{ru:'КазЭУ им. Рыскулова',kz:'Т.Рысқұлов атындағы ҚЭУ'},full:{ru:'Казахский экономический университет им. Т. Рыскулова',kz:'Т.Рысқұлов атындағы Қазақ экономика университеті'},city:'Алматы',type:'Ұлттық',fields:['economics','law'],minS:65,grantS:80,tuition:'320 000–650 000₸',founded:1963,code:'021',specs:{ru:'Экономика, Бизнес, Финансы, Статистика, Право.',kz:'Экономика, Бизнес, Қаржы, Статистика, Құқық.'},abbr:["МУИТ", "IITU"]},
+  {id:16,emoji:'🌟',name:{ru:'Назарбаев Университет',kz:'Назарбаев Университеті'},full:{ru:'Nazarbayev University',kz:'Nazarbayev University'},city:'Астана',type:'Халықаралық',fields:['it','engineering','medicine','law','economics','natural'],minS:85,grantS:120,tuition:{ru:'Грант NU',kz:'NU гранты'},founded:2010,code:'—',specs:{ru:'QS №1 Центральная Азия. На английском. 556 грантов (2024).',kz:'QS №1 Орталық Азия. Ағылшын тілінде. 556 грант (2024).'},abbr:["НУ","NU","Nazarbayev","Назарбаев","Bolashak","НазарбаевУ"]},
+  {id:17,emoji:'🌍',name:{ru:'МКТУ (Яссауи)',kz:'ХҚТУ (Яссауи)'},full:{ru:'Международный казахско-турецкий университет им. Х.А. Ясави',kz:'Х.А. Ясауи атындағы Халықаралық қазақ-түрік университеті'},city:'Түркістан',type:'Халықаралық',fields:['it','engineering','economics','law','humanities','pedagogy'],minS:50,grantS:72,tuition:'250 000–500 000₸',founded:1991,code:'037',specs:{ru:'Первый международный ВУЗ в КЗ. Казахско-турецкое партнёрство.',kz:'ҚЗ-дағы бірінші халықаралық ЖОО. Қазақ-түрік серіктестігі.'},abbr:["КазМедУ"]},
+  {id:18,emoji:'💻',name:{ru:'МУИТ',kz:'ХАҚТУ'},full:{ru:'Международный университет информационных технологий',kz:'Халықаралық ақпараттық технологиялар университеті'},city:'Алматы',type:'Халықаралық',fields:['it'],minS:65,grantS:90,tuition:'900 000–1 400 000₸',founded:2009,code:'190',specs:{ru:'AI, Cybersecurity, Data Science, Mobile Dev, Software Engineering.',kz:'AI, Киберқауіпсіздік, Data Science, Мобильді разработка, SE.'},abbr:["SDU", "СДУ", "Демирель", "Suleyman"]},
+  {id:21,emoji:'🏦',name:{ru:'КИМЭП',kz:'КИМЭП'},full:{ru:'KIMEP University',kz:'KIMEP University'},city:'Алматы',type:'Халықаралық',fields:['economics','law'],minS:70,grantS:95,tuition:'1 500 000–2 500 000₸',founded:1992,code:'979',specs:{ru:'Международная аккредитация. На английском. Менеджмент, Экономика, Право.',kz:'Халықаралық аккредитация. Ағылшынша. Менеджмент, Экономика, Құқық.'},abbr:["AITU", "АИТУ", "Astana IT", "АйТУ"]},
+  {id:33,emoji:'⚙️',name:{ru:'КарТУ им. Сагинова',kz:'Сагинов атындағы ҚарТУ'},full:{ru:'Карагандинский технический университет им. Абылкаса Сагинова',kz:'Абылқас Сағынов атындағы Қарағанды техникалық университеті'},city:'Қарағанды',type:'Мемлекеттік',fields:['engineering','it'],minS:60,grantS:80,tuition:'300 000–600 000₸',founded:1953,code:'032',specs:{ru:'Горное дело, IT, Энергетика, Металлургия.',kz:'Тау-кен, IT, Энергетика, Металлургия.'},abbr:["Нархоз", "Narhoz"]},
+  {id:34,emoji:'🏛️',name:{ru:'КарУ им. Букетова',kz:'Бөкетов атындағы ҚарМУ'},full:{ru:'Карагандинский университет им. Е.А. Букетова',kz:'Е.А. Бөкетов атындағы Қарағанды университеті'},city:'Қарағанды',type:'Мемлекеттік',fields:['it','economics','law','humanities','natural','pedagogy'],minS:50,grantS:75,tuition:'250 000–500 000₸',founded:1938,code:'031',specs:{ru:'Классический гос. ун-т.',kz:'Классикалық мемлекеттік ун-т.'},abbr:["Туран", "Turan"]},
+  {id:35,emoji:'🏥',name:{ru:'Карагандинский МУ',kz:'Қарағанды МУ'},full:{ru:'Карагандинский медицинский университет',kz:'Қарағанды медицина университеті'},city:'Қарағанды',type:'Мемлекеттік',fields:['medicine'],minS:70,grantS:105,tuition:'500 000–1 000 000₸',founded:1950,code:'030',specs:{ru:'Лечебное дело, Стоматология, Фармация.',kz:'Емдеу ісі, Стоматология, Фармация.'},abbr:["КарМУ", "Карагандинский медицинский"]},
+  {id:53,emoji:'🏛️',name:{ru:'ЮКУ им. Ауэзова',kz:'Әуезов атындағы ОҚМУ'},full:{ru:'Южно-Казахстанский университет им. М. Ауэзова',kz:'М.О. Әуезов атындағы Оңтүстік Қазақстан университеті'},city:'Шымкент',type:'Мемлекеттік',fields:['it','engineering','medicine','law','economics','pedagogy','humanities','natural'],minS:50,grantS:72,tuition:'230 000–460 000₸',founded:1943,code:'045',specs:{ru:'Крупнейший ВУЗ Юга. QS 490.',kz:'Оңтүстіктің ең ірі ЖОО. QS 490.'},abbr:["ЮКУ", "Ауэзова", "Auezov", "ЮКО"]},
+  {id:56,emoji:'🏥',name:{ru:'Медицинский ун-т Астана',kz:'Астана МУ'},full:{ru:'Медицинский университет Астана',kz:'Астана медицина университеті'},city:'Астана',type:'Акционерленген',fields:['medicine'],minS:70,grantS:105,tuition:'600 000–1 100 000₸',founded:2002,code:'001',specs:{ru:'Лечебное дело, Стоматология, Фармация, Педиатрия.',kz:'Емдеу ісі, Стоматология, Фармация, Педиатрия.'},abbr:["МедУА", "Астана медицина"]},
+  {id:58,emoji:'⚖️',name:{ru:'КазГЮУ им. Нарикбаева',kz:'Нарикбаев атындағы ҚазГЗУ'},full:{ru:'КазГЮУ им. Нарикбаева',kz:'Нарикбаев атындағы ҚазГЗУ'},city:'Астана',type:'Акционерленген',fields:['law','economics','humanities'],minS:65,grantS:85,tuition:'500 000–9 000 000₸',founded:1994,code:'174',specs:{ru:'Лидер в праве. Юриспруденция, МП, Экономика.',kz:'Құқықтағы көшбасшы. Заңтану, ХП, Экономика.'},abbr:["КазГЮУ", "KAZGUU", "Нарикбаев"]},
+  {id:61,emoji:'⚡',name:{ru:'АУЭС им. Даукеева',kz:'Дәукеев атындағы АУЭС'},full:{ru:'Алматинский университет энергетики и связи им. Г. Даукеева',kz:'Г. Дәукеев атындағы Алматы энергетика және байланыс университеті'},city:'Алматы',type:'Акционерленген',fields:['engineering','it'],minS:60,grantS:80,tuition:'400 000–800 000₸',founded:1975,code:'057',specs:{ru:'Энергетика, Связь, Электроника, IT.',kz:'Энергетика, Байланыс, Электроника, IT.'},abbr:["АУЭС", "AUES", "Даукеева"]},
+  {id:63,emoji:'💻',name:{ru:'КБТУ',kz:'КБТУ'},full:{ru:'Казахстанско-Британский технический университет',kz:'Қазақстан-Британ техникалық университеті'},city:'Алматы',type:'Жеке',fields:['it','engineering','economics'],minS:65,grantS:100,tuition:'1 200 000–2 000 000₸',founded:2001,code:'421',specs:{ru:'Лидер IT. Аффилиат Лондонского университета. CS, AI, Cybersecurity.',kz:'IT көшбасшысы. Лондон университетінің аффилиаты. CS, AI, Киберқауіпсіздік.'},abbr:["КБТУ", "KBTU"]},
+  {id:64,emoji:'💻',name:{ru:'SDU',kz:'SDU'},full:{ru:'Университет им. Сулеймана Демиреля (SDU)',kz:'Сүлейман Демирел атындағы Университет (SDU)'},city:'Каскелен',type:'Жеке',fields:['it','engineering','economics','law'],minS:65,grantS:120,tuition:'800 000–1 400 000₸',founded:1996,code:'302',specs:{ru:'IT-лидер. Computer Science, Data Science. На английском.',kz:'IT-көшбасшы. Computer Science, Data Science. Ағылшынша.'},abbr:["SDU", "СДУ", "Демирель"]},
+  {id:65,emoji:'🏫',name:{ru:'Туран',kz:'Тұран'},full:{ru:'Университет «Туран»',kz:'«Тұран» университеті'},city:'Алматы',type:'Жеке',fields:['economics','law','it','humanities'],minS:50,grantS:70,tuition:'500 000–900 000₸',founded:1992,code:'093',specs:{ru:'Экономика, Право, IT, Менеджмент, Психология.',kz:'Экономика, Құқық, IT, Менеджмент, Психология.'},abbr:["Туран", "Turan"]},
+  {id:84,emoji:'🛡️',name:{ru:'Академия КНБ',kz:'ҰҚК Академиясы'},full:{ru:'Академия КНБ Республики Казахстан',kz:'Қазақстан Республикасы ҰҚК Академиясы'},city:'Алматы',type:'Арнаулы',fields:['military','law'],minS:80,grantS:100,tuition:{ru:'Госбюджет',kz:'Мемлекеттік бюджет'},founded:1974,code:'519',specs:{ru:'Оперативные сотрудники КНБ. Юрист со знанием иностранного языка.',kz:'ҰҚК оперативті қызметкерлері. Шетел тілін меңгерген заңгер.'},abbr:["КНБ", "AKB"]},
+  {id:87,emoji:'👮',name:{ru:'Академия МВД',kz:'ІІМ Академиясы'},full:{ru:'Алматинская академия МВД Республики Казахстан',kz:'Қазақстан Республикасы ІІМ Алматы академиясы'},city:'Алматы',type:'Арнаулы',fields:['military','law'],minS:75,grantS:90,tuition:{ru:'Госбюджет',kz:'Мемлекеттік бюджет'},founded:1993,code:'354',specs:{ru:'Следственные и административные подразделения. 5 специальностей.',kz:'Тергеу және әкімшілік бөлімдер. 5 мамандық.'},abbr:["МВД", "АМВД"]},
+
+  // ── Астана ──
+  {id:100,emoji:'🏛️',name:{ru:'ЕНУ (филиал)',kz:'ЕҰУ'},full:{ru:'Евразийский гуманитарный институт',kz:'Еуразиялық гуманитарлық институт'},city:'Астана',type:'Жеке',fields:['humanities','law','economics'],minS:50,grantS:70,tuition:'250 000–500 000₸',founded:1999,code:'047',specs:{ru:'Гуманитарные и правовые науки.',kz:'Гуманитарлық және құқықтық ғылымдар.'},abbr:["ЕГИ", "EHI", "Евразийский гуман"]},
+  {id:101,emoji:'⚙️',name:{ru:'АИЭС',kz:'АИЭС'},full:{ru:'Astana IT University',kz:'Astana IT University'},city:'Астана',type:'Жеке',fields:['it','engineering'],minS:65,grantS:90,tuition:'900 000–1 500 000₸',founded:2019,code:'522',specs:{ru:'IT, Data Science, Cybersecurity, AI.',kz:'IT, Data Science, Киберқауіпсіздік, AI.'},abbr:["AITU", "АИТУ", "Astana IT", "АИЭС"]},
+  {id:102,emoji:'📊',name:{ru:'Университет Туран-Астана',kz:'Тұран-Астана университеті'},full:{ru:'Университет Туран-Астана',kz:'Тұран-Астана университеті'},city:'Астана',type:'Жеке',fields:['economics','law','it','humanities'],minS:50,grantS:70,tuition:'400 000–700 000₸',founded:2001,code:'184',specs:{ru:'Экономика, Право, IT, Педагогика.',kz:'Экономика, Құқық, IT, Педагогика.'},abbr:["Туран-Астана", "Turan-Astana"]},
+  {id:103,emoji:'🏥',name:{ru:'КМУ Семей',kz:'Семей МУ'},full:{ru:'НАО «Медицинский университет Семей»',kz:'«Семей медицина университеті» КЕАҚ'},city:'Семей',type:'Акционерленген',fields:['medicine'],minS:70,grantS:108,tuition:'600 000–1 200 000₸',founded:1953,code:'041',specs:{ru:'Лечебное дело, Стоматология, Фармация, Педиатрия.',kz:'Емдеу ісі, Стоматология, Фармация, Педиатрия.'},abbr:["МУС", "Семей медицина"]},
+  {id:104,emoji:'🏛️',name:{ru:'Болашак',kz:'Болашақ'},full:{ru:'Карагандинский университет «Болашак»',kz:'«Болашақ» Қарағанды университеті'},city:'Қарағанды',type:'Жеке',fields:['economics','law','pedagogy','humanities'],minS:50,grantS:68,tuition:'300 000–550 000₸',founded:1994,code:'116',specs:{ru:'Экономика, Право, Педагогика, Психология.',kz:'Экономика, Құқық, Педагогика, Психология.'},abbr:["Болашак", "Bolashak", "Карагандинский"]},
+  {id:105,emoji:'⚙️',name:{ru:'СГПИ',kz:'СҒПИ'},full:{ru:'Семипалатинский государственный педагогический институт',kz:'Семей мемлекеттік педагогикалық институты'},city:'Семей',type:'Мемлекеттік',fields:['pedagogy','humanities','natural'],minS:50,grantS:65,tuition:'200 000–380 000₸',founded:1937,code:'514',specs:{ru:'Педагогические специальности, естественные науки.',kz:'Педагогикалық мамандықтар, жаратылыстану.'}},
+  {id:106,emoji:'🏛️',name:{ru:'ВКУ им. Аманжолова',kz:'Аманжолов атындағы ШҚУ'},full:{ru:'Восточно-Казахстанский университет им. С. Аманжолова',kz:'С. Аманжолов атындағы Шығыс Қазақстан университеті'},city:'Өскемен',type:'Мемлекеттік',fields:['it','engineering','economics','law','humanities','natural','pedagogy'],minS:50,grantS:72,tuition:'220 000–450 000₸',founded:1952,code:'011',specs:{ru:'Крупнейший ВУЗ Восточного Казахстана. 60+ специальностей.',kz:'Шығыс Қазақстанның ең ірі ЖОО. 60+ мамандық.'},abbr:["ВКУ", "Аманжолова", "VKU", "ВК"]},
+  {id:107,emoji:'⚙️',name:{ru:'ВКТУ',kz:'ШҚТУ'},full:{ru:'Восточно-Казахстанский технический университет',kz:'Шығыс Қазақстан техникалық университеті'},city:'Өскемен',type:'Мемлекеттік',fields:['engineering','it','natural'],minS:55,grantS:75,tuition:'260 000–500 000₸',founded:1958,code:'012',specs:{ru:'Металлургия, Машиностроение, IT, Строительство.',kz:'Металлургия, Машина жасау, IT, Құрылыс.'},abbr:["ВКТУ", "EKTU", "SHQTU"]},
+  {id:108,emoji:'🏛️',name:{ru:'ПГУ им. Торайгырова',kz:'Торайғыров атындағы ПМУ'},full:{ru:'Павлодарский педагогический университет им. А. Байтурсынова',kz:'А. Байтұрсынов атындағы Павлодар педагогикалық университеті'},city:'Павлодар',type:'Мемлекеттік',fields:['pedagogy','humanities','natural'],minS:50,grantS:65,tuition:'180 000–350 000₸',founded:1962,code:'517',specs:{ru:'Педагогические специальности. Гуманитарные науки.',kz:'Педагогикалық мамандықтар. Гуманитарлық ғылымдар.'},abbr:["ПГУ", "PGU", "Байтурсынова", "Павлодар пед"]},
+  {id:109,emoji:'⚙️',name:{ru:'ИнЕУ',kz:'ИнЕУ'},full:{ru:'Инновационный Евразийский университет',kz:'Инновациялық Еуразия университеті'},city:'Павлодар',type:'Жеке',fields:['it','engineering','economics','law'],minS:50,grantS:68,tuition:'280 000–520 000₸',founded:2001,code:'146',specs:{ru:'IT, Инженерия, Экономика, Право.',kz:'IT, Инженерия, Экономика, Құқық.'},abbr:["ИнЕУ", "InEU", "Инновационный Евразийский"]},
+  {id:110,emoji:'🏛️',name:{ru:'ЗКМУ им. Марата Оспанова',kz:'Марат Оспанов атындағы БҚМУ'},full:{ru:'Западно-Казахстанский медицинский университет им. Марата Оспанова',kz:'Марат Оспанов атындағы Батыс Қазақстан медицина университеті'},city:'Ақтөбе',type:'Мемлекеттік',fields:['medicine'],minS:70,grantS:105,tuition:'500 000–1 000 000₸',founded:1957,code:'004',specs:{ru:'Лечебное дело, Стоматология, Педиатрия, Фармация.',kz:'Емдеу ісі, Стоматология, Педиатрия, Фармация.'},abbr:["ЗКМУ", "ZKMU", "Оспанова", "Западно-Казахстанский мед"]},
+  {id:111,emoji:'🏛️',name:{ru:'АктГУ им. К.Жубанова',kz:'Қ.Жұбанов атындағы АқтГУ'},full:{ru:'Актюбинский региональный университет им. К.Жубанова',kz:'Қ.Жұбанов атындағы Ақтөбе өңірлік университеті'},city:'Ақтөбе',type:'Мемлекеттік',fields:['it','engineering','economics','law','humanities','natural','pedagogy'],minS:50,grantS:68,tuition:'200 000–400 000₸',founded:1966,code:'005',specs:{ru:'Классический региональный ун-т. 50+ специальностей.',kz:'Классикалық өңірлік ун-т. 50+ мамандық.'},abbr:["АктГУ", "Жубанова", "Актюбинский"]},
+  {id:112,emoji:'🏛️',name:{ru:'КазАТК',kz:'ҚазКТА'},full:{ru:'Казахская академия транспорта и коммуникаций им. М.Тынышпаева',kz:'М.Тынышбаев атындағы Қазақ көлік және коммуникациялар академиясы'},city:'Алматы',type:'Мемлекеттік',fields:['engineering','it'],minS:55,grantS:75,tuition:'300 000–600 000₸',founded:1931,code:'019',specs:{ru:'Железнодорожный транспорт, Логистика, IT.',kz:'Темір жол көлігі, Логистика, IT.'},abbr:["КазАТК", "КазАТА", "Тынышпаева", "Транспорт"]},
+  {id:113,emoji:'⚖️',name:{ru:'КазНАУ (Алматы)',kz:'ҚазҰАУ'},full:{ru:'Казахский университет архитектуры и строительства',kz:'Қазақ құрылыс және сәулет университеті'},city:'Алматы',type:'Мемлекеттік',fields:['engineering'],minS:55,grantS:75,tuition:'300 000–600 000₸',founded:1980,code:'—',specs:{ru:'Архитектура, Строительство, Дизайн, Геодезия.',kz:'Сәулет, Құрылыс, Дизайн, Геодезия.'},abbr:["КазУАС", "КазГАСА", "Строительство Алматы"]},
+  {id:114,emoji:'🏛️',name:{ru:'КазГАСА',kz:'ҚазМСА'},full:{ru:'Казахская головная архитектурно-строительная академия',kz:'Қазақ жетекші сәулет-құрылыс академиясы'},city:'Алматы',type:'Акционерленген',fields:['engineering'],minS:55,grantS:72,tuition:'380 000–700 000₸',founded:1999,code:'019',specs:{ru:'Архитектура, Строительство, Городское планирование.',kz:'Сәулет, Құрылыс, Қала жоспарлау.'},abbr:["КазГАСА", "KAZGASA", "Архитектура"]},
+  {id:115,emoji:'🎨',name:{ru:'КазНАИ',kz:'ҚазҰӨИ'},full:{ru:'Казахская национальная академия искусств им. Т.К.Жургенова',kz:'Т.Қ.Жүргенов атындағы Қазақ ұлттық өнер академиясы'},city:'Алматы',type:'Мемлекеттік',fields:['art'],minS:50,grantS:65,tuition:'250 000–500 000₸',founded:1978,code:'017',specs:{ru:'Театральное, Музыкальное, Изобразительное искусство.',kz:'Театр, Музыка, Бейнелеу өнері.'},abbr:["КазНАИ", "Жургенова", "Искусство"]},
+  {id:116,emoji:'🎵',name:{ru:'КазНК',kz:'ҚазҰК'},full:{ru:'Казахская национальная консерватория им. Курмангазы',kz:'Құрманғазы атындағы Қазақ ұлттық консерваториясы'},city:'Алматы',type:'Мемлекеттік',fields:['art'],minS:50,grantS:65,tuition:'250 000–400 000₸',founded:1944,code:'006',specs:{ru:'Фортепиано, Вокал, Оркестровые инструменты.',kz:'Фортепиано, Вокал, Оркестрлік аспаптар.'},abbr:["КазНК", "Консерватория", "Курмангазы"]},
+  {id:117,emoji:'⚽',name:{ru:'КазАСТ',kz:'ҚазСТА'},full:{ru:'Казахская академия спорта и туризма',kz:'Қазақ спорт және туризм академиясы'},city:'Алматы',type:'Мемлекеттік',fields:['sport'],minS:50,grantS:65,tuition:'220 000–400 000₸',founded:1944,code:'020',specs:{ru:'Физкультура, Спорт, Туризм.',kz:'Дене шынықтыру, Спорт, Туризм.'},abbr:["КазАСТ", "Спорт", "Туризм"]},
+  {id:118,emoji:'🏛️',name:{ru:'МГУ им. Ломоносова (Астана)',kz:'ММУ (Астана)'},full:{ru:'Московский государственный университет — Казахстанский филиал',kz:'МГУ — Қазақстандық филиал'},city:'Астана',type:'Халықаралық',fields:['it','economics','law','natural'],minS:75,grantS:100,tuition:'1 200 000–2 000 000₸',founded:2001,code:'542',specs:{ru:'Филиал МГУ. Механика, Физика, Экономика, Право.',kz:'МГУ филиалы. Механика, Физика, Экономика, Құқық.'},abbr:["МГУ", "MSU", "Ломоносова", "Москва"]},
+  {id:119,emoji:'🏛️',name:{ru:'Университет Мирас',kz:'Мирас университеті'},full:{ru:'Университет «Мирас»',kz:'«Мирас» университеті'},city:'Шымкент',type:'Жеке',fields:['economics','law','it','humanities'],minS:50,grantS:65,tuition:'280 000–500 000₸',founded:1991,code:'133',specs:{ru:'Экономика, Право, IT, Педагогика.',kz:'Экономика, Құқық, IT, Педагогика.'},abbr:["Мирас", "Miras"]},
+  {id:120,emoji:'🏛️',name:{ru:'ЮКГУ им. Ауэзова (мед.)',kz:'ОҚМФА'},full:{ru:'Южно-Казахстанская медицинская академия',kz:'Оңтүстік Қазақстан медицина академиясы'},city:'Шымкент',type:'Мемлекеттік',fields:['medicine'],minS:70,grantS:105,tuition:'550 000–1 000 000₸',founded:1979,code:'046',specs:{ru:'Лечебное дело, Стоматология, Педиатрия.',kz:'Емдеу ісі, Стоматология, Педиатрия.'},abbr:["ЮКМА", "SKMA"]},
+  {id:121,emoji:'🌾',name:{ru:'Шымкентский ун-т',kz:'Шымкент университеті'},full:{ru:'Шымкентский университет',kz:'Шымкент университеті'},city:'Шымкент',type:'Жеке',fields:['economics','law','it','pedagogy'],minS:50,grantS:65,tuition:'250 000–450 000₸',founded:1993,code:'414',specs:{ru:'Экономика, Право, IT, Педагогика.',kz:'Экономика, Құқық, IT, Педагогика.'},abbr:["Шымкент", "Shymkent"]},
+  {id:122,emoji:'🏛️',name:{ru:'КГУ им. Коркыт Ата',kz:'Қорқыт Ата атындағы ҚМУ'},full:{ru:'Кызылординский университет им. Коркыт Ата',kz:'Қорқыт Ата атындағы Қызылорда университеті'},city:'Қызылорда',type:'Мемлекеттік',fields:['it','economics','law','humanities','natural','pedagogy'],minS:50,grantS:65,tuition:'200 000–380 000₸',founded:1937,code:'034',specs:{ru:'Классический региональный ун-т. 40+ специальностей.',kz:'Классикалық өңірлік ун-т. 40+ мамандық.'},abbr:["КГУ", "Коркыт", "Кызылорда"]},
+  {id:123,emoji:'🏛️',name:{ru:'МУА',kz:'МУА'},full:{ru:'Международная академия бизнеса',kz:'Халықаралық бизнес академиясы'},city:'Алматы',type:'Жеке',fields:['economics','law'],minS:50,grantS:72,tuition:'500 000–1 000 000₸',founded:1992,code:'092',specs:{ru:'MBA, Менеджмент, Маркетинг, Финансы.',kz:'MBA, Менеджмент, Маркетинг, Қаржы.'},abbr:["МУА", "MUA", "МАБ", "MAB", "Международный бизнес"]},
+  {id:124,emoji:'🏛️',name:{ru:'Almaty Management University',kz:'Almaty Management University'},full:{ru:'Almaty Management University (AlmaU)',kz:'Almaty Management University (AlmaU)'},city:'Алматы',type:'Жеке',fields:['economics','law'],minS:60,grantS:80,tuition:'700 000–1 500 000₸',founded:1988,code:'083',specs:{ru:'Бизнес-образование. MBA. Менеджмент, Финансы, Маркетинг.',kz:'Бизнес білімі. MBA. Менеджмент, Қаржы, Маркетинг.'},abbr:["AlmaU", "Алма", "Менеджмент"]},
+  {id:125,emoji:'🏛️',name:{ru:'КазГЮУ (Астана)',kz:'ҚазМЗУ (Астана)'},full:{ru:'Казахстанский гуманитарно-юридический инновационный университет',kz:'Қазақстан гуманитарлық-заң инновациялық университеті'},city:'Семей',type:'Жеке',fields:['law','economics','humanities'],minS:50,grantS:65,tuition:'280 000–500 000₸',founded:1994,code:'177',specs:{ru:'Право, Экономика, Гуманитарные науки.',kz:'Құқық, Экономика, Гуманитарлық ғылымдар.'},abbr:["КазГЮУ", "KAZGUU", "Семей право"]},
+  {id:126,emoji:'🏛️',name:{ru:'ЖГУ им. Баласагуна',kz:'Баласағұн атындағы ЖГУ'},full:{ru:'Жетысуский университет им. Ильяса Жансугурова',kz:'Іляс Жансүгіров атындағы Жетісу университеті'},city:'Талдықорған',type:'Мемлекеттік',fields:['it','economics','law','humanities','natural','pedagogy'],minS:50,grantS:65,tuition:'180 000–350 000₸',founded:1966,code:'015',specs:{ru:'Классический региональный ун-т.',kz:'Классикалық өңірлік ун-т.'},abbr:["ЖГУ", "Жансугурова", "Жетысу", "Талдықорған"]},
+  {id:128,emoji:'🏛️',name:{ru:'ЗКГУ им. Утемисова',kz:'Өтемісов атындағы БҚМУ'},full:{ru:'Западно-Казахстанский университет им. М.Утемисова',kz:'М.Өтемісов атындағы Батыс Қазақстан университеті'},city:'Орал',type:'Мемлекеттік',fields:['it','economics','law','humanities','natural','pedagogy'],minS:50,grantS:65,tuition:'190 000–360 000₸',founded:1932,code:'016',specs:{ru:'Классический региональный ун-т. Уральск.',kz:'Классикалық өңірлік ун-т. Орал.'},abbr:["ЗКГУ", "Утемисова", "Орал"]},
+  {id:129,emoji:'🏛️',name:{ru:'АГУ им. Байтурсынова',kz:'Байтұрсынов атындағы АМУ'},full:{ru:'Костанайский региональный университет им. А.Байтурсынова',kz:'А.Байтұрсынов атындағы Қостанай өңірлік университеті'},city:'Қостанай',type:'Мемлекеттік',fields:['it','economics','law','humanities','natural','pedagogy'],minS:50,grantS:65,tuition:'190 000–360 000₸',founded:1939,code:'053',specs:{ru:'Классический региональный ун-т. 40+ специальностей.',kz:'Классикалық өңірлік ун-т. 40+ мамандық.'},abbr:["АГУ", "Байтурсынова", "Костанай"]},
+  {id:130,emoji:'🏛️',name:{ru:'КГУ им. Шакарима',kz:'Шәкәрім атындағы КМУ'},full:{ru:'Университет им. Шакарима города Семей',kz:'Семей қаласының Шәкәрім атындағы университеті'},city:'Семей',type:'Мемлекеттік',fields:['it','engineering','economics','law','humanities','natural','pedagogy'],minS:50,grantS:65,tuition:'190 000–370 000₸',founded:1991,code:'042',specs:{ru:'Классический региональный ун-т. Семей.',kz:'Классикалық өңірлік ун-т. Семей.'},abbr:["КГУ", "Шакарим", "Семей"]},
+  {id:131,emoji:'⚙️',name:{ru:'ПГПИ',kz:'ПМПИ'},full:{ru:'Павлодарский государственный педагогический институт',kz:'Павлодар мемлекеттік педагогикалық институты'},city:'Павлодар',type:'Мемлекеттік',fields:['pedagogy','humanities'],minS:50,grantS:62,tuition:'170 000–320 000₸',founded:1962,code:'051',specs:{ru:'Педагогические специальности.',kz:'Педагогикалық мамандықтар.'},abbr:["ПГПИ", "PGPI", "Павлодар пед"]},
+  {id:132,emoji:'🏛️',name:{ru:'НАО «МУ им. Дулати»',kz:'Дулати атындағы ТарМУ'},full:{ru:'Таразский региональный университет им. М.Х.Дулати',kz:'М.Х.Дулати атындағы Тараз өңірлік университеті'},city:'Тараз',type:'Мемлекеттік',fields:['it','engineering','economics','law','humanities','natural','pedagogy'],minS:50,grantS:65,tuition:'180 000–350 000₸',founded:1998,code:'043',specs:{ru:'Классический региональный ун-т. Тараз.',kz:'Классикалық өңірлік ун-т. Тараз.'},abbr:["Дулати", "Dulati", "ТарГУ", "Тараз"]},
+  {id:133,emoji:'⚙️',name:{ru:'ТарГПИ',kz:'ТарМПИ'},full:{ru:'Таразский государственный педагогический институт',kz:'Тараз мемлекеттік педагогикалық институты'},city:'Тараз',type:'Мемлекеттік',fields:['pedagogy','humanities'],minS:50,grantS:62,tuition:'170 000–320 000₸',founded:1967,code:'044',specs:{ru:'Педагогические специальности.',kz:'Педагогикалық мамандықтар.'},abbr:["ТарГПИ", "TGPI"]},
+  {id:134,emoji:'🌾',name:{ru:'Кокшетауский ун-т им. Уалиханова',kz:'Уәлиханов атындағы Көкшетау ун-ті'},full:{ru:'Кокшетауский университет им. Ш.Уалиханова',kz:'Ш.Уәлиханов атындағы Көкшетау университеті'},city:'Көкшетау',type:'Мемлекеттік',fields:['it','economics','law','humanities','natural','pedagogy'],minS:50,grantS:65,tuition:'190 000–360 000₸',founded:1962,code:'035',specs:{ru:'Классический региональный ун-т.',kz:'Классикалық өңірлік ун-т.'},abbr:["КокшУ", "Уалиханов", "Көкшетау"]},
+  {id:135,emoji:'🏛️',name:{ru:'СКУ им. Козыбаева',kz:'Қозыбаев атындағы СҚУ'},full:{ru:'Северо-Казахстанский университет им. М.Козыбаева',kz:'М.Қозыбаев атындағы Солтүстік Қазақстан университеті'},city:'Петропавл',type:'Мемлекеттік',fields:['it','economics','law','humanities','natural','pedagogy','engineering'],minS:50,grantS:65,tuition:'190 000–360 000₸',founded:1937,code:'040',specs:{ru:'Классический региональный ун-т. Петропавловск.',kz:'Классикалық өңірлік ун-т. Петропавл.'},abbr:["СКУ", "Козыбаева", "SKU", "Петропавл"]},
+  {id:136,emoji:'⚙️',name:{ru:'АГУ Атырау',kz:'АМУ Атырау'},full:{ru:'Атырауский университет нефти и газа им. С.Утебаева',kz:'С.Өтебаев атындағы Атырау мұнай және газ университеті'},city:'Атырау',type:'Мемлекеттік',fields:['engineering','it','natural'],minS:55,grantS:75,tuition:'280 000–550 000₸',founded:1945,code:'009',specs:{ru:'Нефтегазовая отрасль. Геология, Экология, IT.',kz:'Мұнай-газ саласы. Геология, Экология, IT.'},abbr:["АГУ", "Атырау нефть", "Өтебаев", "Утебаев"]},
+  {id:137,emoji:'🏛️',name:{ru:'МангУ',kz:'МУ'},full:{ru:'Мангистауский университет',kz:'Маңғыстау университеті'},city:'Ақтау',type:'Мемлекеттік',fields:['it','economics','law','engineering','pedagogy'],minS:50,grantS:65,tuition:'200 000–380 000₸',founded:1999,code:'049',specs:{ru:'Региональный ун-т. Нефтегаз, IT, Экономика.',kz:'Өңірлік ун-т. Мұнай-газ, IT, Экономика.'},abbr:["МангУ", "Ақтау"]},
+  {id:138,emoji:'🏛️',name:{ru:'КазНУ искусств',kz:'ҚазҰӨУ'},full:{ru:'Казахский национальный университет искусств',kz:'Қазақ ұлттық өнер университеті'},city:'Астана',type:'Мемлекеттік',fields:['art'],minS:50,grantS:65,tuition:'250 000–500 000₸',founded:1998,code:'012',specs:{ru:'Музыка, Театр, Хореография, Изобразительное искусство.',kz:'Музыка, Театр, Хореография, Бейнелеу өнері.'},abbr:["КазНУ искусств", "KAZNU Art"]},
+  {id:139,emoji:'🎭',name:{ru:'КазГАТОБ',kz:'ҚазМАТОБ'},full:{ru:'Казахская национальная академия хореографии',kz:'Қазақ ұлттық хореография академиясы'},city:'Астана',type:'Мемлекеттік',fields:['art'],minS:50,grantS:60,tuition:'220 000–400 000₸',founded:2001,code:'579',specs:{ru:'Хореографическое искусство.',kz:'Хореографиялық өнер.'},abbr:["КазГАТОБ", "Хореография Астана"]},
+  {id:140,emoji:'💻',name:{ru:'Алматинский технологический ун-т',kz:'Алматы технологиялық ун-ті'},full:{ru:'Алматинский технологический университет (АТУ)',kz:'Алматы технологиялық университеті (АТУ)'},city:'Алматы',type:'Акционерленген',fields:['engineering','it','economics'],minS:55,grantS:72,tuition:'350 000–650 000₸',founded:1957,code:'055',specs:{ru:'Пищевая технология, Легкая промышленность, IT.',kz:'Тамақ технологиясы, Жеңіл өнеркәсіп, IT.'},abbr:["АТУ", "ATU", "Алматинский технологический"]},
+  {id:141,emoji:'🌾',name:{ru:'КазАГИУ',kz:'ҚазАГИУ'},full:{ru:'Казахский агроинженерный исследовательский университет им. С.Сейфуллина',kz:'С.Сейфуллин атындағы Қазақ агроинженерлік зерттеу университеті'},city:'Астана',type:'Акционерленген',fields:['agriculture','engineering','natural'],minS:55,grantS:72,tuition:'280 000–520 000₸',founded:1957,code:'010',specs:{ru:'Агроинженерия, Ветеринария, Агрономия.',kz:'Агроинженерия, Ветеринария, Агрономия.'},abbr:["КазАГИУ", "Сейфуллин", "Агро", "КазАгро"]},
+  {id:142,emoji:'🏛️',name:{ru:'ГМУ им. Байтурсынова',kz:'Байтұрсынов атындағы АМУ'},full:{ru:'Аркалыкский педагогический институт им. Ы.Алтынсарина',kz:'Ы.Алтынсарин атындағы Арқалық педагогикалық институты'},city:'Арқалық',type:'Мемлекеттік',fields:['pedagogy','humanities'],minS:50,grantS:60,tuition:'160 000–300 000₸',founded:1976,code:'004',specs:{ru:'Педагогические специальности.',kz:'Педагогикалық мамандықтар.'},abbr:["АркПИ", "Алтынсарин", "Арқалық пед"]},
+  {id:143,emoji:'⚙️',name:{ru:'Рудненский индустриальный ин-т',kz:'Рудный индустриалдық институты'},full:{ru:'Рудненский индустриальный институт',kz:'Рудный индустриалдық институты'},city:'Рудный',type:'Мемлекеттік',fields:['engineering','it'],minS:50,grantS:65,tuition:'220 000–400 000₸',founded:1955,code:'056',specs:{ru:'Горное дело, Строительство, IT.',kz:'Тау-кен, Құрылыс, IT.'},abbr:["РИИ", "Рудный", "Индустриальный"]},
+  {id:144,emoji:'🏛️',name:{ru:'ЗКУ им. Жангирхана',kz:'Жәңгір хан атындағы БҚУ'},full:{ru:'Западно-Казахстанский аграрно-технический университет им. Жангирхана',kz:'Жәңгір хан атындағы Батыс Қазақстан аграрлық-техникалық университеті'},city:'Орал',type:'Мемлекеттік',fields:['agriculture','engineering','natural'],minS:50,grantS:65,tuition:'200 000–380 000₸',founded:1932,code:'059',specs:{ru:'Агрономия, Ветеринария, Агроинженерия.',kz:'Агрономия, Ветеринария, Агроинженерия.'},abbr:["ЗКАТУ", "Жангирхан", "Западно-Казахстанский агро"]},
+  {id:145,emoji:'🏛️',name:{ru:'КазАВТО',kz:'ҚазАВТО'},full:{ru:'Казахстанско-американский свободный университет',kz:'Қазақстан-Американдық еркін университеті'},city:'Өскемен',type:'Жеке',fields:['economics','law','it','humanities'],minS:50,grantS:65,tuition:'280 000–500 000₸',founded:1994,code:'177',specs:{ru:'Экономика, Право, IT, Гуманитарные науки.',kz:'Экономика, Құқық, IT, Гуманитарлық ғылымдар.'},abbr:["КАФУ", "KAFU", "Американский", "Свободный"]},
+  {id:147,emoji:'🏛️',name:{ru:'Туран-Астана (Нур-Султан)',kz:'Тұран-Астана'},full:{ru:'Казахский национальный женский педагогический университет',kz:'Қазақ ұлттық қыздар педагогикалық университеті'},city:'Алматы',type:'Мемлекеттік',fields:['pedagogy','humanities','natural'],minS:50,grantS:65,tuition:'200 000–380 000₸',founded:1944,code:'025',specs:{ru:'Педагогика. Только для женщин.',kz:'Педагогика. Тек қыздарға.'},abbr:["КазЖенПУ", "Женский", "Алматы жен"]},
+  {id:200,emoji:'🏛️',name:{ru:'АГУ им.Досмухамедова',kz:'Досмұхамедов атындағы АМУ'},full:{ru:'Атырауский государственный университет им.Х.Досмухамедова',kz:'Х.Досмұхамедов атындағы Атырау мемлекеттік университеті'},city:'Атырау',type:'Мемлекеттік',fields:['it','economics','law','humanities','natural','pedagogy'],minS:50,grantS:65,tuition:'190 000–360 000₸',founded:1940,code:'010',specs:{ru:'Классический региональный ун-т Атырау.',kz:'Атырау өңірлік классикалық ун-ті.'},abbr:["АГУ", "Досмухамедов", "Атырау"]},
+  {id:201,emoji:'⛽',name:{ru:'Есенов ун-т',kz:'Есенов университеті'},full:{ru:'Каспийский университет технологий и инжиниринга им.Ш.Есенова',kz:'Ш.Есенов атындағы Каспий технологиялар және инжиниринг университеті'},city:'Ақтау',type:'Мемлекеттік',fields:['engineering','it','natural'],minS:55,grantS:72,tuition:'260 000–500 000₸',founded:1988,code:'050',specs:{ru:'Нефтегаз, Геология, IT, Строительство.',kz:'Мұнай-газ, Геология, IT, Құрылыс.'},abbr:["Есенов", "Каспийский", "КаспТИ", "Ақтау"]},
+  {id:203,emoji:'⚙️',name:{ru:'ЕПУ Павлодар',kz:'ЕПУ Павлодар'},full:{ru:'Евразийский политехнический университет',kz:'Еуразиялық политехникалық университет'},city:'Павлодар',type:'Жеке',fields:['engineering','it'],minS:50,grantS:65,tuition:'280 000–500 000₸',founded:2001,code:'320',specs:{ru:'Инженерия, IT, Строительство.',kz:'Инженерия, IT, Құрылыс.'},abbr:["ЕПУ", "EPU"]},
+  {id:204,emoji:'🏛️',name:{ru:'Ун-т Мырзахметова',kz:'Мырзахметов атындағы КУ'},full:{ru:'Кокшетауский университет им.А.Мырзахметова',kz:'А.Мырзахметов атындағы Көкшетау университеті'},city:'Көкшетау',type:'Жеке',fields:['economics','law','it','pedagogy','humanities'],minS:50,grantS:65,tuition:'280 000–500 000₸',founded:1996,code:'197',specs:{ru:'Экономика, Право, Педагогика, IT.',kz:'Экономика, Құқық, Педагогика, IT.'},abbr:["КУМ", "Мырзахметов", "Кокшетауский"]},
+  {id:205,emoji:'🏛️',name:{ru:'Болашак Кызылорда',kz:'Болашақ Қызылорда'},full:{ru:'Академия «Болашак» Кызылорда',kz:'«Болашақ» академиясы Қызылорда'},city:'Қызылорда',type:'Жеке',fields:['economics','law','pedagogy'],minS:50,grantS:62,tuition:'250 000–450 000₸',founded:1996,code:'249',specs:{ru:'Экономика, Право, Педагогика.',kz:'Экономика, Құқық, Педагогика.'},abbr:["Болашак", "Bolashak", "Кызылорда"]},
+  {id:206,emoji:'🛡️',name:{ru:'Акад. погранслужбы КНБ',kz:'ҰҚК Шекара қызметі академиясы'},full:{ru:'Академия Пограничной службы КНБ РК',kz:'ҚР ҰҚК Шекара қызметінің академиясы'},city:'Алматы',type:'Арнаулы',fields:['military','law'],minS:78,grantS:95,tuition:{ru:'Госбюджет',kz:'Мемлекеттік бюджет'},founded:1992,code:'518',specs:{ru:'Охрана государственной границы.',kz:'Мемлекеттік шекараны қорғау.'},abbr:["КНБ погран", "Пограничная"]},
+  {id:207,emoji:'🚒',name:{ru:'Академия МЧС',kz:'ТЖМ Академиясы'},full:{ru:'Академия гражданской защиты МЧС РК',kz:'ҚР ТЖМ Азаматтық қорғау академиясы'},city:'Көкшетау',type:'Арнаулы',fields:['military','engineering'],minS:70,grantS:85,tuition:{ru:'Госбюджет',kz:'Мемлекеттік бюджет'},founded:1999,code:'524',specs:{ru:'Пожарная безопасность, Гражданская защита.',kz:'Өрт қауіпсіздігі, Азаматтық қорғаныс.'},abbr:["МЧС Академия", "ГО"]},
+  {id:208,emoji:'⚖️',name:{ru:'Академия правосудия',kz:'Сот төрелігі академиясы'},full:{ru:'Академия правосудия при Верховном суде РК',kz:'ҚР Жоғарғы сотының жанындағы Сот төрелігі академиясы'},city:'Астана',type:'Арнаулы',fields:['law'],minS:75,grantS:90,tuition:{ru:'Госбюджет',kz:'Мемлекеттік бюджет'},founded:2000,code:'577',specs:{ru:'Судьи, Прокуроры, Юристы.',kz:'Судьялар, Прокурорлар, Заңгерлер.'},abbr:["Сот", "Правосудия"]},
+  {id:209,emoji:'🌐',name:{ru:'Казахстанско-немецкий ун-т',kz:'Қазақстан-Германия университеті'},full:{ru:'Казахстанско-немецкий университет (DKU)',kz:'Қазақстан-Германия университеті (DKU)'},city:'Алматы',type:'Халықаралық',fields:['economics','law','it'],minS:65,grantS:85,tuition:'800 000–1 500 000₸',founded:1999,code:'447',specs:{ru:'Немецкие программы. МП, Экономика, IT.',kz:'Неміс бағдарламалары. ХП, Экономика, IT.'},abbr:["DKU", "ДКУ", "Германский", "Немецкий"]},
+  {id:210,emoji:'☪️',name:{ru:'Нур-Мубарак',kz:'Нұр-Мүбарак'},full:{ru:'Египетский университет исламской культуры «Нур-Мубарак»',kz:'«Нұр-Мүбарак» Египет ислам мәдениеті университеті'},city:'Алматы',type:'Халықаралық',fields:['humanities','law'],minS:50,grantS:65,tuition:'300 000–550 000₸',founded:2001,code:'453',specs:{ru:'Исламские науки, Арабский, Право.',kz:'Ислам ғылымдары, Арабша, Құқық.'},abbr:["Нур-Мубарак", "Египетский", "Исламский"]},
+  {id:211,emoji:'🎨',name:{ru:'КазГХА',kz:'ҚазМКӨА'},full:{ru:'Казахская государственная художественная академия им.К.Темирбекова',kz:'Қ.Темірбеков атындағы Қазақ мемлекеттік көркем-өнер академиясы'},city:'Алматы',type:'Мемлекеттік',fields:['art'],minS:50,grantS:62,tuition:'220 000–400 000₸',founded:1955,code:'015',specs:{ru:'Живопись, Скульптура, Дизайн, Графика.',kz:'Кескіндеме, Мүсін, Дизайн, Графика.'},abbr:["КазГХА", "КГХА", "Художественная"]},
+  {id:212,emoji:'🏥',name:{ru:'Астана Медицинский',kz:'Астана Медициналық'},full:{ru:'Астана Медицинский Университет',kz:'Астана Медициналық Университеті'},city:'Астана',type:'Жеке',fields:['medicine'],minS:70,grantS:108,tuition:'700 000–1 300 000₸',founded:2010,code:'590',specs:{ru:'Лечебное дело, Стоматология, Педиатрия.',kz:'Емдеу ісі, Стоматология, Педиатрия.'},abbr:["АМУ", "AMU", "Астана мед частный"]},
+  {id:213,emoji:'🏥',name:{ru:'Жетысу Медицинский',kz:'Жетісу Медициналық'},full:{ru:'Жетысуский медицинский университет',kz:'Жетісу медицина университеті'},city:'Талдықорған',type:'Жеке',fields:['medicine'],minS:65,grantS:100,tuition:'550 000–900 000₸',founded:2015,code:'612',specs:{ru:'Лечебное дело, Стоматология, Фармация.',kz:'Емдеу ісі, Стоматология, Фармация.'},abbr:["ЖМУ", "Жетысу мед", "Талдықорған мед"]},
+  {id:216,emoji:'🏛️',name:{ru:'Ун-т Болашак Актобе',kz:'Болашақ Ақтөбе'},full:{ru:'Актюбинский университет «Болашак»',kz:'Ақтөбе «Болашақ» университеті'},city:'Ақтөбе',type:'Жеке',fields:['economics','law','pedagogy','it'],minS:50,grantS:62,tuition:'260 000–460 000₸',founded:1995,code:'168',specs:{ru:'Экономика, Право, Педагогика.',kz:'Экономика, Құқық, Педагогика.'},abbr:["Болашак", "Ақтөбе"]},
+  {id:217,emoji:'🏛️',name:{ru:'Международный ун-т Астана',kz:'Халықаралық Астана ун-ті'},full:{ru:'Международный университет Астана (МУА)',kz:'Астана Халықаралық университеті'},city:'Астана',type:'Халықаралық',fields:['economics','law','it'],minS:60,grantS:80,tuition:'600 000–1 200 000₸',founded:2021,code:'650',specs:{ru:'Международные программы. Экономика, IT, Право.',kz:'Халықаралық бағдарламалар. Экономика, IT, Құқық.'},abbr:["МУА", "IUA", "Международный Астана"]},
+  {id:218,emoji:'🏛️',name:{ru:'Инж.-экон. ун-т Дулатова',kz:'Дулатов атындағы инж.-экон. ун-т'},full:{ru:'Костанайский инженерно-экономический университет им.М.Дулатова',kz:'М.Дулатов атындағы Қостанай инженерлік-экономикалық университеті'},city:'Қостанай',type:'Мемлекеттік',fields:['engineering','economics','it'],minS:50,grantS:68,tuition:'250 000–450 000₸',founded:1958,code:'054',specs:{ru:'Инженерия, Экономика, IT.',kz:'Инженерия, Экономика, IT.'},abbr:["КИЭУ", "Дулатова", "Костанай инж"]},
+  {id:219,emoji:'🏛️',name:{ru:'Южно-Каз. гум. ин-т Сапарбаева',kz:'Сапарбаев атындағы ОҚГИ'},full:{ru:'Южно-Казахстанский гуманитарный институт им.М.Сапарбаева',kz:'М.Сапарбаев атындағы Оңтүстік Қазақстан гуманитарлық институты'},city:'Шымкент',type:'Жеке',fields:['economics','law','humanities','pedagogy'],minS:50,grantS:63,tuition:'280 000–500 000₸',founded:1994,code:'096',specs:{ru:'Гуманитарные науки, Экономика, Педагогика.',kz:'Гуманитарлық ғылымдар, Экономика, Педагогика.'},abbr:["ЮКГИ", "Сапарбаев", "Шымкент гум"]},
+  {id:220,emoji:'🏛️',name:{ru:'Туран Шымкент',kz:'Тұран Шымкент'},full:{ru:'Университет «Туран-Шымкент»',kz:'«Тұран-Шымкент» университеті'},city:'Шымкент',type:'Жеке',fields:['economics','law','it','humanities'],minS:50,grantS:65,tuition:'280 000–500 000₸',founded:1993,code:'258',specs:{ru:'Экономика, Право, IT, Менеджмент.',kz:'Экономика, Құқық, IT, Менеджмент.'},abbr:["Туран-Шымкент"]},
+  {id:221,emoji:'🏛️',name:{ru:'Байтурсынов ун-т Алматы',kz:'Байтұрсынов атындағы Алматы ун-ті'},full:{ru:'Алматинский университет им.А.Байтурсынова',kz:'А.Байтұрсынов атындағы Алматы университеті'},city:'Алматы',type:'Жеке',fields:['pedagogy','humanities','law'],minS:50,grantS:63,tuition:'280 000–500 000₸',founded:1997,code:'173',specs:{ru:'Педагогика, Гуманитарные науки, Право.',kz:'Педагогика, Гуманитарлық ғылымдар, Құқық.'},abbr:["Байтурсынов Алматы", "Алматы"]},
+  {id:226,emoji:'🏛️',name:{ru:'ПГУ им.Торайгырова',kz:'Торайғыров атындағы ПМУ'},full:{ru:'Павлодарский университет им.С.Торайгырова',kz:'С.Торайғыров атындағы Павлодар университеті'},city:'Павлодар',type:'Мемлекеттік',fields:['it','engineering','economics','law','humanities','natural','pedagogy'],minS:50,grantS:68,tuition:'200 000–400 000₸',founded:1960,code:'038',specs:{ru:'Классический региональный ун-т. Павлодар.',kz:'Классикалық өңірлік ун-т. Павлодар.'},abbr:["ПГУ", "Торайгыров", "Павлодар"]},
+  {id:243,emoji:'🏛️',name:{ru:'ИнЕУ Павлодар',kz:'ИнЕУ Павлодар'},full:{ru:'Инновационный Евразийский университет (ИнЕУ)',kz:'Инновациялық Еуразия университеті (ИнЕУ)'},city:'Павлодар',type:'Жеке',fields:['it','engineering','economics','law'],minS:50,grantS:68,tuition:'280 000–520 000₸',founded:2001,code:'305',specs:{ru:'IT, Инженерия, Экономика, Право.',kz:'IT, Инженерия, Экономика, Құқық.'},abbr:["ИнЕУ", "InEU", "Павлодар"]},
+  {id:250,emoji:'🎵',name:{ru:'КазНК Курмангазы',kz:'Құрманғазы атындағы ҚазҰК'},full:{ru:'Казахская национальная консерватория им.Курмангазы',kz:'Құрманғазы атындағы Қазақ ұлттық консерваториясы'},city:'Алматы',type:'Мемлекеттік',fields:['art'],minS:50,grantS:65,tuition:'250 000–400 000₸',founded:1944,code:'016',specs:{ru:'Фортепиано, Вокал, Оркестровые инструменты.',kz:'Фортепиано, Вокал, Оркестрлік аспаптар.'},abbr:["КазНК", "Консерватория"]},
+  {id:256,emoji:'🏛️',name:{ru:'КазНПУ Абая',kz:'Абай атындағы ҚазҰПУ'},full:{ru:'Казахский национальный педагогический университет им.Абая',kz:'Абай атындағы Қазақ ұлттық педагогикалық университеті'},city:'Алматы',type:'Ұлттық',fields:['pedagogy','humanities','natural','it'],minS:60,grantS:80,tuition:'280 000–550 000₸',founded:1928,code:'014',specs:{ru:'Педагогические специальности. 40+ программ.',kz:'Педагогикалық мамандықтар. 40+ бағдарлама.'},abbr:["КазНПУ", "Абай", "Abay", "Педагогический нац"]},
+  {id:262,emoji:'🏛️',name:{ru:'Академия гос.управления',kz:'Мемл.басқару академиясы'},full:{ru:'Академия государственного управления при Президенте РК',kz:'ҚР Президенті жанындағы Мемлекеттік басқару академиясы'},city:'Астана',type:'Арнаулы',fields:['law','economics','humanities'],minS:75,grantS:90,tuition:{ru:'Госбюджет',kz:'Мемлекеттік бюджет'},founded:1994,code:'011',specs:{ru:'Государственное управление. Только госслужащие.',kz:'Мемлекеттік басқару. Тек мемлекеттік қызметкерлер.'},abbr:["АГУпр", "Администрация", "Президент"]},
+  {id:263,emoji:'🏛️',name:{ru:'Ун-т Сапарбаева',kz:'Сапарбаев ун-ті'},full:{ru:'Университет им.Б.Сапарбаева',kz:'Б.Сапарбаев атындағы университет'},city:'Тараз',type:'Жеке',fields:['economics','law','pedagogy','it'],minS:50,grantS:63,tuition:'250 000–450 000₸',founded:1994,code:'095',specs:{ru:'Экономика, Право, Педагогика, IT.',kz:'Экономика, Құқық, Педагогика, IT.'},abbr:["Сапарбаев", "Тараз"]},
+  {id:264,emoji:'🏛️',name:{ru:'СГУ им.Байменова',kz:'Байменов атындағы ТМУ'},full:{ru:'Таразский медицинский университет',kz:'Тараз медицина университеті'},city:'Тараз',type:'Жеке',fields:['medicine'],minS:65,grantS:100,tuition:'500 000–900 000₸',founded:2008,code:'091',specs:{ru:'Лечебное дело, Стоматология, Фармация.',kz:'Емдеу ісі, Стоматология, Фармация.'},abbr:["ТМУ", "Тараз мед"]},
+  {id:265,emoji:'🏛️',name:{ru:'Халықаралық гуманитарлық',kz:'Халықаралық гуманитарлық'},full:{ru:'Международный гуманитарно-технический университет',kz:'Халықаралық гуманитарлық-техникалық университет'},city:'Шымкент',type:'Жеке',fields:['it','economics','law','engineering'],minS:50,grantS:65,tuition:'280 000–500 000₸',founded:2002,code:'137',specs:{ru:'IT, Экономика, Право, Инженерия.',kz:'IT, Экономика, Құқық, Инженерия.'},abbr:["МГТУ", "Шымкент гум"]},
+  {id:266,emoji:'🏛️',name:{ru:'Ун-т Кайнар',kz:'Қайнар университеті'},full:{ru:'Университет «Кайнар»',kz:'«Қайнар» университеті'},city:'Алматы',type:'Жеке',fields:['economics','law','humanities','pedagogy'],minS:50,grantS:63,tuition:'280 000–500 000₸',founded:1992,code:'163',specs:{ru:'Право, Экономика, Гуманитарные науки.',kz:'Құқық, Экономика, Гуманитарлық ғылымдар.'},abbr:["Кайнар", "Kainar"]},
+  {id:268,emoji:'🏛️',name:{ru:'Ун-т КАЗГЮУ (Алматы)',kz:'КАЗГЮУ (Алматы)'},full:{ru:'КАЗГЮУ Университет им.М.Нарикбаева (Алматы)',kz:'М.Нарикбаев атындағы КАЗГЮУ Университеті (Алматы)'},city:'Алматы',type:'Жеке',fields:['law','economics'],minS:60,grantS:80,tuition:'450 000–800 000₸',founded:2005,code:'174',specs:{ru:'Право, Экономика.',kz:'Құқық, Экономика.'},abbr:["КазГЮУ", "Нарикбаев", "Алматы право"]},
+  {id:270,emoji:'🏛️',name:{ru:'Казахско-русский ун-т',kz:'Қазақ-орыс халықаралық ун-ті'},full:{ru:'Казахско-Русский международный университет',kz:'Қазақ-Орыс халықаралық университеті'},city:'Ақтөбе',type:'Жеке',fields:['economics','law','it','humanities'],minS:50,grantS:65,tuition:'270 000–490 000₸',founded:1999,code:'125',specs:{ru:'Экономика, Право, IT, Гуманитарные.',kz:'Экономика, Құқық, IT, Гуманитарлық.'},abbr:["КРМУ", "Казахско-русский"]}
+];
+
+const TYPE_TAG = {
+  'Ұлттық':'tag-blue','Халықаралық':'tag-green','Мемлекеттік':'tag-gray',
+  'Акционерленген':'tag-yellow','Жеке':'tag-purple','Арнаулы':'tag-red',
+};
+function g(obj, l) { return typeof obj === 'object' ? (obj[l] || obj.ru) : obj; }
+
+// ═══════════════ CATALOG ═══════════════
+function renderCatalog() {
+  const city  = document.getElementById('f-city').value;
+  const type  = document.getElementById('f-type').value;
+  const field = document.getElementById('f-field').value;
+  const q     = document.getElementById('f-search').value.toLowerCase();
+  const t     = T[lang];
+
+  let list = UNIS.filter(u => {
+    if (city  && u.city !== city) return false;
+    if (type  && u.type !== type) return false;
+    if (field && !u.fields.includes(field)) return false;
+    if (q) {
+      const fn = g(u.full, lang).toLowerCase();
+      const nn = g(u.name, lang).toLowerCase();
+      const abbr = (u.abbr || []).map(a => a.toLowerCase());
+      return fn.includes(q) || nn.includes(q) || u.city.toLowerCase().includes(q) || abbr.some(a => a.includes(q));
+    }
+    return true;
+  });
+
+  document.getElementById('cat-count').textContent = `${t.found} ${list.length} ${t.unis}`;
+  const grid = document.getElementById('unis-grid');
+  grid.innerHTML = '';
+
+  if (!list.length) {
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:50px 20px;color:var(--gray-400);">
+      <div style="font-size:2.5rem;margin-bottom:12px;">🔍</div>
+      <div style="font-family:'Noto Sans',sans-serif;font-size:0.95rem;font-weight:700;color:var(--gray-700);margin-bottom:6px;">${t.no_result}</div>
+      <div style="font-size:0.85rem;">${t.no_result_sub}</div>
+    </div>`;
+    return;
+  }
+
+  list.forEach((u, i) => {
+    const card = document.createElement('div');
+    card.className = 'uni-card';
+    card.style.animationDelay = (Math.min(i, 12) * 0.04) + 's';
+    card.style.animation = 'slideUp 0.3s ease both';
+    card.onclick = () => openModal(u);
+    const tg = TYPE_TAG[u.type] || 'tag-gray';
+    card.innerHTML = `
+      <div class="uni-card-top">
+        <div class="uni-emoji">${u.emoji}</div>
+        <div style="flex:1;min-width:0;">
+          <div class="uni-name">${g(u.name, lang)}</div>
+          <div class="uni-loc">📍 ${u.city} · ${u.founded}</div>
+        </div>
+      </div>
+      <div class="uni-tags">
+        <span class="tag ${tg}">${u.type}</span>
+        ${u.code !== '—' ? `<span class="tag tag-gray">Код ${u.code}</span>` : ''}
+      </div>
+      <div class="uni-stats">
+        <div class="stat-box"><div class="stat-box-num">${u.minS}+</div><div class="stat-box-lbl">${lang==='ru'?'Мин. балл':'Мин. балл'}</div></div>
+        <div class="stat-box"><div class="stat-box-num">${u.grantS}+</div><div class="stat-box-lbl">${lang==='ru'?'Грант':'Грант'}</div></div>
+        <div class="stat-box"><div class="stat-box-num">${u.founded}</div><div class="stat-box-lbl">${lang==='ru'?'Год':'Жыл'}</div></div>
+      </div>
+      <div class="uni-footer">
+        <button class="uni-btn-detail" onclick="event.stopPropagation();openModal(UNIS.find(x=>x.id===${u.id}))">${t.detail}</button>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+// ═══════════════ FINDER ═══════════════
+function runFinder() {
+  const score = parseInt(document.getElementById('ent-score').value);
+  const field = document.getElementById('ent-field').value;
+  const city  = document.getElementById('ent-city').value;
+  const t     = T[lang];
+  const box   = document.getElementById('finder-results');
+
+  if (!score || !field) {
+    box.innerHTML = `<div style="color:#ef4444;font-size:0.85rem;padding:12px 0;">${lang === 'ru' ? '⚠️ Укажи балл и направление' : '⚠️ Балл мен бағытты көрсет'}</div>`;
+    return;
+  }
+
+  let list = UNIS.filter(u => {
+    if (!u.fields.includes(field)) return false;
+    if (city && u.city !== city) return false;
+    return score >= u.minS;
+  }).sort((a, b) => b.grantS - a.grantS);
+
+  if (!list.length) {
+    box.innerHTML = `<div style="text-align:center;padding:32px;background:var(--gray-50);border-radius:14px;border:1px solid var(--gray-200);">
+      <div style="font-size:2rem;margin-bottom:10px;">😔</div>
+      <div style="font-family:'Noto Sans',sans-serif;font-weight:700;margin-bottom:6px;">${t.no_result}</div>
+      <div style="color:var(--gray-500);font-size:0.85rem;">${t.no_result_sub}</div>
+    </div>`;
+    return;
+  }
+
+  box.innerHTML = `<div style="font-size:0.82rem;color:var(--gray-500);margin-bottom:14px;font-weight:500;">${t.found} <strong style="color:var(--gray-900)">${list.length}</strong> ${t.unis}</div>`;
+
+  list.forEach((u, i) => {
+    const diff = score - u.grantS;
+    const chance = diff >= 15 ? 95 : diff >= 5 ? 80 : diff >= 0 ? 65 : diff >= -10 ? 45 : diff >= -20 ? 25 : 10;
+    const cls = chance >= 65 ? 'c-green' : chance >= 40 ? 'c-yellow' : 'c-red';
+    const canGrant = score >= u.grantS;
+    const card = document.createElement('div');
+    card.className = 'result-card';
+    card.style.animationDelay = (i * 0.05) + 's';
+    card.onclick = () => openModal(u);
+    const tuitionStr = typeof u.tuition === 'object' ? g(u.tuition, lang) : u.tuition;
+    card.innerHTML = `
+      <div class="result-emoji">${u.emoji}</div>
+      <div class="result-info">
+        <div class="result-name">${g(u.full, lang)}</div>
+        <div class="result-meta">📍 ${u.city} · ${tuitionStr}
+          ${canGrant ? `<span class="grant-pill">${t.grant_possible}</span>` : ''}
+        </div>
+      </div>
+      <div class="chance-box ${cls}">
+        <div class="chance-num">${chance}%</div>
+        <div class="chance-lbl">${t.chance}</div>
+      </div>`;
+    box.appendChild(card);
+  });
+}
+
+// ═══════════════ MODAL ═══════════════
+function openModal(u) {
+  if (!u) return;
+  currentModal = u;
+  const t = T[lang];
+  document.getElementById('m-emoji').textContent = u.emoji;
+  document.getElementById('m-name').textContent = g(u.full, lang);
+  document.getElementById('m-sub').textContent = `${u.city} · ${u.type} · ${lang === 'ru' ? 'основан' : 'құрылған'} ${u.founded}`;
+  document.getElementById('m-spec').textContent = g(u.specs, lang);
+  const tuitionStr = typeof u.tuition === 'object' ? g(u.tuition, lang) : u.tuition;
+  document.getElementById('m-grid').innerHTML = [
+    {l: t.m_min,         v: u.minS + (lang === 'ru' ? ' баллов' : ' балл')},
+    {l: t.m_grant_score, v: u.grantS + (lang === 'ru' ? ' баллов' : ' балл')},
+    {l: t.m_cost,        v: tuitionStr},
+    {l: t.m_code,        v: u.code},
+    {l: t.m_city,        v: u.city},
+    {l: t.m_type,        v: u.type},
+    {l: t.m_founded,     v: u.founded + (lang === 'ru' ? ' г.' : ' ж.')},
+    {l: t.m_rector,      v: '—'},
+  ].map(i => `<div class="modal-cell"><div class="modal-cell-lbl">${i.l}</div><div class="modal-cell-val">${i.v}</div></div>`).join('');
+  document.getElementById('m-sec1').textContent = t.m_sec1;
+  document.getElementById('m-sec2').textContent = t.m_sec2;
+  document.getElementById('modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeModalOut(e) { if (e.target === document.getElementById('modal')) closeModal(); }
+
+// ═══════════════ INIT ═══════════════
+
+</script>
+</body>
+</html>
